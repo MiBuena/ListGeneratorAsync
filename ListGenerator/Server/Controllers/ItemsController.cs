@@ -25,9 +25,9 @@ namespace ListGenerator.Server.Controllers
         }
 
         [HttpGet("itemsnames/{searchWord}")]
-        public async Task<IActionResult> GetItemsNames(string searchWord)
+        public async Task<IActionResult> GetItemsNamesAsync(string searchWord)
         {
-            var response = await _itemsDataService.GetItemsNames(searchWord, this.UserId);
+            var response = await _itemsDataService.GetItemsNamesAsync(searchWord, this.UserId);
 
             if(!response.IsSuccess)
             {

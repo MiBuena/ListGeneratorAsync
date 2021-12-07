@@ -7,7 +7,7 @@ namespace ListGenerator.Server.Interfaces
 {
     public interface IItemsDataService
     {
-        Task<Response<IEnumerable<ItemNameDto>>> GetItemsNames(string searchWord, string userId);
+        Task<Response<IEnumerable<ItemNameDto>>> GetItemsNamesAsync(string searchWord, string userId);
 
         Response<ItemDto> GetItem(int itemId, string userId);
 

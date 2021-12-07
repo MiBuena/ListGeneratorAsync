@@ -40,7 +40,7 @@ namespace ListGenerator.Server.Services
             _localizer = localizer;
         }
 
-        public async Task<Response<IEnumerable<ItemNameDto>>> GetItemsNames(string searchWord, string userId)
+        public async Task<Response<IEnumerable<ItemNameDto>>> GetItemsNamesAsync(string searchWord, string userId)
         {
             try
             {

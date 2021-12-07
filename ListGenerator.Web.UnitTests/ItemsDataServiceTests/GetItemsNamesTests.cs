@@ -50,7 +50,7 @@ namespace ListGenerator.Web.UnitTests.ItemsDataServiceTests
              .Returns(filteredItemNameDtos.AsQueryable());
 
             //Act
-            var result = ItemsDataService.GetItemsNames("d", "ab70793b-cec8-4eba-99f3-cbad0b1649d0");
+            var result = ItemsDataService.GetItemsNamesAsync("d", "ab70793b-cec8-4eba-99f3-cbad0b1649d0");
 
             //Assert
             AssertHelper.AssertAll(
@@ -81,7 +81,7 @@ namespace ListGenerator.Web.UnitTests.ItemsDataServiceTests
                 .Returns(filteredItemNameDtos.AsQueryable());
 
             //Act
-            var result = ItemsDataService.GetItemsNames("d", "ab70793b-cec8-4eba-99f3-cbad0b1649d0");
+            var result = ItemsDataService.GetItemsNamesAsync("d", "ab70793b-cec8-4eba-99f3-cbad0b1649d0");
 
             //Assert
             result.Data.First().Name.Should().Be("Bread");
@@ -110,7 +110,7 @@ namespace ListGenerator.Web.UnitTests.ItemsDataServiceTests
              .Returns(filteredItemNameDtos.AsQueryable());
 
             //Act
-            var result = ItemsDataService.GetItemsNames("B", "ab70793b-cec8-4eba-99f3-cbad0b1649d0");
+            var result = ItemsDataService.GetItemsNamesAsync("B", "ab70793b-cec8-4eba-99f3-cbad0b1649d0");
 
             //Assert
             AssertHelper.AssertAll(
@@ -143,7 +143,7 @@ namespace ListGenerator.Web.UnitTests.ItemsDataServiceTests
              .Returns(filteredItemNameDtos.AsQueryable());
 
             //Act
-            var result = ItemsDataService.GetItemsNames("B", "ab70793b-cec8-4eba-99f3-cbad0b1649d0");
+            var result = ItemsDataService.GetItemsNamesAsync("B", "ab70793b-cec8-4eba-99f3-cbad0b1649d0");
 
             //Assert
             AssertHelper.AssertAll(
@@ -172,7 +172,7 @@ namespace ListGenerator.Web.UnitTests.ItemsDataServiceTests
              .Returns(filteredItemNameDtos.AsQueryable());
 
             //Act
-            var result = ItemsDataService.GetItemsNames("R", "ab70793b-cec8-4eba-99f3-cbad0b1649d0");
+            var result = ItemsDataService.GetItemsNamesAsync("R", "ab70793b-cec8-4eba-99f3-cbad0b1649d0");
 
             //Assert
             AssertHelper.AssertAll(
@@ -203,7 +203,7 @@ namespace ListGenerator.Web.UnitTests.ItemsDataServiceTests
              .Returns(filteredItemNameDtos.AsQueryable());
 
             //Act
-            var result = ItemsDataService.GetItemsNames("Re", "ab70793b-cec8-4eba-99f3-cbad0b1649d0");
+            var result = ItemsDataService.GetItemsNamesAsync("Re", "ab70793b-cec8-4eba-99f3-cbad0b1649d0");
 
             //Assert
             result.Data.First().Name.Should().Be("Bread");
@@ -216,7 +216,7 @@ namespace ListGenerator.Web.UnitTests.ItemsDataServiceTests
             InitializeMocksWithEmptyCollection();
 
             //Act
-            var result = ItemsDataService.GetItemsNames("B", "ab70793b-cec8-4eba-99f3-cbad0b1649d0");
+            var result = ItemsDataService.GetItemsNamesAsync("B", "ab70793b-cec8-4eba-99f3-cbad0b1649d0");
 
             //Assert
             AssertHelper.AssertAll(
@@ -244,7 +244,7 @@ namespace ListGenerator.Web.UnitTests.ItemsDataServiceTests
              .Returns(filteredItemNameDtos.AsQueryable());
 
             //Act
-            var result = ItemsDataService.GetItemsNames("B", "ab70793b-cec8-4eba-99f3-cbad0b1649d0");
+            var result = ItemsDataService.GetItemsNamesAsync("B", "ab70793b-cec8-4eba-99f3-cbad0b1649d0");
 
             //Assert
             AssertHelper.AssertAll(
@@ -270,7 +270,7 @@ namespace ListGenerator.Web.UnitTests.ItemsDataServiceTests
                 .Throws(new Exception());
 
             //Act
-            var result = ItemsDataService.GetItemsNames("B", "ab70793b-cec8-4eba-99f3-cbad0b1649d0");
+            var result = ItemsDataService.GetItemsNamesAsync("B", "ab70793b-cec8-4eba-99f3-cbad0b1649d0");
 
             //Assert
             AssertHelper.AssertAll(
@@ -288,7 +288,7 @@ namespace ListGenerator.Web.UnitTests.ItemsDataServiceTests
 
 
             //Act
-            var result = ItemsDataService.GetItemsNames(null, "ab70793b-cec8-4eba-99f3-cbad0b1649d0");
+            var result = ItemsDataService.GetItemsNamesAsync(null, "ab70793b-cec8-4eba-99f3-cbad0b1649d0");
 
             //Assert
             AssertHelper.AssertAll(
@@ -305,7 +305,7 @@ namespace ListGenerator.Web.UnitTests.ItemsDataServiceTests
             InitializeMocksWithEmptyCollection();
 
             //Act
-            var result = ItemsDataService.GetItemsNames("B", null);
+            var result = ItemsDataService.GetItemsNamesAsync("B", null);
 
             //Assert
             AssertHelper.AssertAll(
@@ -322,7 +322,7 @@ namespace ListGenerator.Web.UnitTests.ItemsDataServiceTests
             InitializeMocksWithEmptyCollection();
 
             //Act
-            var result = ItemsDataService.GetItemsNames("B", string.Empty);
+            var result = ItemsDataService.GetItemsNamesAsync("B", string.Empty);
 
             //Assert
             AssertHelper.AssertAll(
@@ -341,7 +341,7 @@ namespace ListGenerator.Web.UnitTests.ItemsDataServiceTests
 
 
             //Act
-            var result = ItemsDataService.GetItemsNames("Re", "1111");
+            var result = ItemsDataService.GetItemsNamesAsync("Re", "1111");
 
 
             //Assert
@@ -377,7 +377,7 @@ namespace ListGenerator.Web.UnitTests.ItemsDataServiceTests
              .Returns(filteredItemNameDtos.AsQueryable());
 
             //Act
-            var result = ItemsDataService.GetItemsNames(string.Empty, "ab70793b-cec8-4eba-99f3-cbad0b1649d0");
+            var result = ItemsDataService.GetItemsNamesAsync(string.Empty, "ab70793b-cec8-4eba-99f3-cbad0b1649d0");
 
             //Assert
             AssertHelper.AssertAll(
@@ -411,7 +411,7 @@ namespace ListGenerator.Web.UnitTests.ItemsDataServiceTests
              .Returns(filteredItemNameDtos.AsQueryable());
 
             //Act
-            var result = ItemsDataService.GetItemsNames(string.Empty, "ab70793b-cec8-4eba-99f3-cbad0b1649d0");
+            var result = ItemsDataService.GetItemsNamesAsync(string.Empty, "ab70793b-cec8-4eba-99f3-cbad0b1649d0");
 
             //Assert
             AssertHelper.AssertAll(
