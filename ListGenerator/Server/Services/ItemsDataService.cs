@@ -6,8 +6,6 @@ using System.Collections.Generic;
 using System.Linq;
 using ListGenerator.Data.Interfaces;
 using ListGenerator.Data.Entities;
-using System.Linq.Expressions;
-using System.Globalization;
 using ListGenerator.Server.Extensions;
 using ListGenerator.Shared.Enums;
 using ListGenerator.Shared.Helpers;
@@ -18,9 +16,8 @@ using ListGenerator.Shared.Extensions;
 using ListGenerator.Shared.CustomExceptions;
 using ListGenerator.Server.CommonResources;
 using Microsoft.Extensions.Localization;
-using System.Threading;
-using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
+using ListGenerator.Shared.Interfaces;
 
 namespace ListGenerator.Server.Services
 {
@@ -28,15 +25,18 @@ namespace ListGenerator.Server.Services
     {
         private readonly IRepository<Item> _itemsRepository;
         private readonly IMapper _mapper;
+        private readonly IAsyncConverter _asyncConverter;
         private readonly IStringLocalizer<Errors> _localizer;
 
 
         public ItemsDataService(IRepository<Item> itemsRepository, 
-            IMapper mapper, 
+            IMapper mapper,
+            IAsyncConverter asyncConverter,
             IStringLocalizer<Errors> localizer = null)
         {
             _itemsRepository = itemsRepository;
             _mapper = mapper;
+            _asyncConverter = asyncConverter;
             _localizer = localizer;
         }
 
@@ -57,7 +57,8 @@ namespace ListGenerator.Server.Services
                     query = query.Where(x => x.Name.ToLower().Contains(searchWord.ToLower()));
                 }
 
-                names = await _mapper.ProjectTo<ItemNameDto>(query).ToListAsync();
+                var queryProjection = _mapper.ProjectTo<ItemNameDto>(query); /*.ToListAsync(); - This would add a dependency to EntityFrameworkCore. That it why I introduced _asyncConverter*/
+                names = await _asyncConverter.ConvertToListAsync(queryProjection);
 
                 var response = ResponseBuilder.Success<IEnumerable<ItemNameDto>>(names);
                 return response;

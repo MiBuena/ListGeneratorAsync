@@ -21,6 +21,7 @@ using ListGenerator.Shared.Interfaces;
 using ListGenerator.Shared.Models;
 using AutoMapper;
 using ListGenerator.Server.Builders;
+using ListGenerator.Shared.Helpers;
 
 namespace ListGenerator.Server
 {
@@ -48,14 +49,12 @@ namespace ListGenerator.Server
                 .AddApiAuthorization<ApplicationUser, ApplicationDbContext>();
 
             services.AddTransient<IItemsDataService, ItemsDataService>();
-
             services.AddTransient<IReplenishmentDataService, ReplenishmentDataService>();
-
             services.AddTransient(typeof(IRepository<>), typeof(EfRepository<>));
 
             services.AddTransient<IDateTimeProvider, DateTimeProvider>();
-
             services.AddTransient<IReplenishmentItemBuilder, ReplenishmentItemBuilder>();
+            services.AddTransient<IAsyncConverter, AsyncConverter>();
 
             services.AddLocalization(options => options.ResourcesPath = "Resources");
 

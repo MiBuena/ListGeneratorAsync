@@ -4,6 +4,7 @@ using ListGenerator.Data.Interfaces;
 using ListGenerator.Server.Interfaces;
 using ListGenerator.Server.Services;
 using ListGenerator.Shared.Dtos;
+using ListGenerator.Shared.Interfaces;
 using ListGenerator.Web.UnitTests.Helpers;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Moq;
@@ -23,9 +24,11 @@ namespace ListGenerator.Web.UnitTests.ItemsDataServiceTests
         {
             ItemsRepositoryMock = new Mock<IRepository<Item>>(MockBehavior.Strict);
             MapperMock = new Mock<IMapper>(MockBehavior.Strict);
-            ItemsDataService = new ItemsDataService(ItemsRepositoryMock.Object, MapperMock.Object);
+            AsyncConverterMock = new Mock<IAsyncConverter>(MockBehavior.Strict);
+            ItemsDataService = new ItemsDataService(ItemsRepositoryMock.Object, MapperMock.Object, AsyncConverterMock.Object);
         }
 
+        protected Mock<IAsyncConverter> AsyncConverterMock { get; private set; }
         protected Mock<IRepository<Item>> ItemsRepositoryMock { get; private set; }
         protected Mock<IMapper> MapperMock { get; private set; }
         protected IItemsDataService ItemsDataService { get; private set; }
