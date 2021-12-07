@@ -18,6 +18,9 @@ using ListGenerator.Shared.Extensions;
 using ListGenerator.Shared.CustomExceptions;
 using ListGenerator.Server.CommonResources;
 using Microsoft.Extensions.Localization;
+using System.Threading;
+using Microsoft.EntityFrameworkCore;
+using System.Threading.Tasks;
 
 namespace ListGenerator.Server.Services
 {
@@ -37,7 +40,7 @@ namespace ListGenerator.Server.Services
             _localizer = localizer;
         }
 
-        public Response<IEnumerable<ItemNameDto>> GetItemsNames(string searchWord, string userId)
+        public async Task<Response<IEnumerable<ItemNameDto>>> GetItemsNames(string searchWord, string userId)
         {
             try
             {
@@ -54,7 +57,7 @@ namespace ListGenerator.Server.Services
                     query = query.Where(x => x.Name.ToLower().Contains(searchWord.ToLower()));
                 }
 
-                names = _mapper.ProjectTo<ItemNameDto>(query).ToList();
+                names = await _mapper.ProjectTo<ItemNameDto>(query).ToListAsync();
 
                 var response = ResponseBuilder.Success<IEnumerable<ItemNameDto>>(names);
                 return response;
