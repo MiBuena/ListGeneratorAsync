@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace ListGenerator.Data.Interfaces
@@ -11,6 +13,8 @@ namespace ListGenerator.Data.Interfaces
         IQueryable<TEntity> All();
 
         IQueryable<TEntity> AllAsNoTracking();
+
+        Task<List<TSource>> ConvertToListAsync<TSource>([NotNullAttribute] IQueryable<TSource> source, CancellationToken cancellationToken = default);
 
         void Add(TEntity entity);
 

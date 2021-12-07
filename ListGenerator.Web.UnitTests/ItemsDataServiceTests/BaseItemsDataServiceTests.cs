@@ -24,11 +24,9 @@ namespace ListGenerator.Web.UnitTests.ItemsDataServiceTests
         {
             ItemsRepositoryMock = new Mock<IRepository<Item>>(MockBehavior.Strict);
             MapperMock = new Mock<IMapper>(MockBehavior.Strict);
-            AsyncConverterMock = new Mock<IAsyncConverter>(MockBehavior.Strict);
-            ItemsDataService = new ItemsDataService(ItemsRepositoryMock.Object, MapperMock.Object, AsyncConverterMock.Object);
+            ItemsDataService = new ItemsDataService(ItemsRepositoryMock.Object, MapperMock.Object);
         }
 
-        protected Mock<IAsyncConverter> AsyncConverterMock { get; private set; }
         protected Mock<IRepository<Item>> ItemsRepositoryMock { get; private set; }
         protected Mock<IMapper> MapperMock { get; private set; }
         protected IItemsDataService ItemsDataService { get; private set; }

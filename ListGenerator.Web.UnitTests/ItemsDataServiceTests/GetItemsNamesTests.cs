@@ -36,7 +36,9 @@ namespace ListGenerator.Web.UnitTests.ItemsDataServiceTests
         {
             //Arrange
             var allItems = BuildItemsCollection();
-            ItemsRepositoryMock.Setup(x => x.All()).Returns(allItems);
+            ItemsRepositoryMock
+                .Setup(x => x.All())
+                .Returns(allItems);
 
             var filteredItem = BuildFirstItem();
             var filteredItems = new List<Item>() { filteredItem };
@@ -45,18 +47,18 @@ namespace ListGenerator.Web.UnitTests.ItemsDataServiceTests
             List<ItemNameDto> filteredItemNameDtosAsList = new List<ItemNameDto>() { filteredItemNameDto };
             IQueryable<ItemNameDto> filteredItemNameDtosAsQueryable = filteredItemNameDtosAsList.AsQueryable();
 
+            ItemsRepositoryMock
+                .Setup(c => c.ConvertToListAsync(
+                    It.Is<IQueryable<ItemNameDto>>(x => ItemsTestHelper.HaveTheSameElements(filteredItemNameDtosAsQueryable, x)),
+                    default(CancellationToken)))
+                .ReturnsAsync(filteredItemNameDtosAsList);
+
             MapperMock
                 .Setup(c => c.ProjectTo(
                     It.Is<IQueryable<Item>>(x => ItemsTestHelper.HaveTheSameElements(filteredItems, x)),
                     null,
                     It.Is<Expression<Func<ItemNameDto, object>>[]>(x => x.Length == 0)))
              .Returns(filteredItemNameDtosAsQueryable);
-
-            AsyncConverterMock
-                .Setup(c => c.ConvertToListAsync(
-                    It.Is<IQueryable<ItemNameDto>>(x => ItemsTestHelper.HaveTheSameElements(filteredItemNameDtosAsQueryable, x)),
-                    default(CancellationToken)))
-                .ReturnsAsync(filteredItemNameDtosAsList);
 
             //Act
             var result = await ItemsDataService.GetItemsNamesAsync("d", "ab70793b-cec8-4eba-99f3-cbad0b1649d0");

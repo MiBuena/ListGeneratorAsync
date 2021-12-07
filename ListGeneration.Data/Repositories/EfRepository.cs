@@ -2,7 +2,10 @@
 using ListGeneratorListGenerator.Data.DB;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace ListGenerator.Data.Repositories
@@ -23,6 +26,11 @@ namespace ListGenerator.Data.Repositories
         public virtual IQueryable<TEntity> All() => this.DbSet;
 
         public virtual IQueryable<TEntity> AllAsNoTracking() => this.DbSet.AsNoTracking();
+
+        public virtual Task<List<TSource>> ConvertToListAsync<TSource>([NotNullAttribute] IQueryable<TSource> source, CancellationToken cancellationToken = default)
+        {
+            return source.ToListAsync(cancellationToken);
+        }
 
         public virtual void Add(TEntity entity) => this.DbSet.Add(entity);       
 

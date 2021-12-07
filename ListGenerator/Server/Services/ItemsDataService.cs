@@ -25,18 +25,15 @@ namespace ListGenerator.Server.Services
     {
         private readonly IRepository<Item> _itemsRepository;
         private readonly IMapper _mapper;
-        private readonly IAsyncConverter _asyncConverter;
         private readonly IStringLocalizer<Errors> _localizer;
 
 
         public ItemsDataService(IRepository<Item> itemsRepository, 
             IMapper mapper,
-            IAsyncConverter asyncConverter,
             IStringLocalizer<Errors> localizer = null)
         {
             _itemsRepository = itemsRepository;
             _mapper = mapper;
-            _asyncConverter = asyncConverter;
             _localizer = localizer;
         }
 
@@ -57,8 +54,8 @@ namespace ListGenerator.Server.Services
                     query = query.Where(x => x.Name.ToLower().Contains(searchWord.ToLower()));
                 }
 
-                var queryProjection = _mapper.ProjectTo<ItemNameDto>(query); /*.ToListAsync(); - This would add a dependency to EntityFrameworkCore. That it why I introduced _asyncConverter*/
-                names = await _asyncConverter.ConvertToListAsync(queryProjection);
+                var queryProjection = _mapper.ProjectTo<ItemNameDto>(query);
+                names = await _itemsRepository.ConvertToListAsync(queryProjection);
 
                 var response = ResponseBuilder.Success<IEnumerable<ItemNameDto>>(names);
                 return response;
