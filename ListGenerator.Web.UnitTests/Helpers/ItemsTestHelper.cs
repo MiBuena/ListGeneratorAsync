@@ -116,6 +116,37 @@ namespace ListGenerator.Web.UnitTests.Helpers
             return areEqual;
         }
 
+        public static bool HaveTheSameElements(IEnumerable<ItemDto> firstCollection, IEnumerable<ItemDto> secondCollection)
+        {
+            if (firstCollection.Count() != secondCollection.Count())
+            {
+                return false;
+            }
+
+            var a = firstCollection.ToList();
+            var b = secondCollection.ToList();
+
+            bool areEqual = true;
+
+            for (int i = 0; i < a.Count; i++)
+            {
+                var p = a[i];
+                var l = b[i];
+
+
+                if (p.Id != l.Id
+                    || p.Name != l.Name
+                    || p.NextReplenishmentDate != l.NextReplenishmentDate
+                    || p.ReplenishmentPeriod != l.ReplenishmentPeriod)
+                {
+                    areEqual = false;
+                    return areEqual;
+                }
+            }
+
+            return areEqual;
+        }
+
         public static bool HaveTheSameProperties(string userId, ItemDto itemDto, Item item)
         {
             var haveTheSameProperties = item.Id == itemDto.Id

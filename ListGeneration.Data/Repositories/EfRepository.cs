@@ -29,12 +29,12 @@ namespace ListGenerator.Data.Repositories
         public virtual IQueryable<TEntity> AllAsNoTracking() => this.DbSet.AsNoTracking();
 
 
-        public Task<List<TSource>> ToListAsync<TSource>([NotNullAttribute] IQueryable<TSource> source, CancellationToken cancellationToken = default)
+        public Task<List<TSource>> ToListAsync<TSource>([NotNull] IQueryable<TSource> source, CancellationToken cancellationToken = default)
         {
             return source.ToListAsync(cancellationToken);
         }
 
-        public Task<TSource> FirstOrDefaultAsync<TSource>([NotNullAttribute] IQueryable<TSource> source, CancellationToken cancellationToken = default)
+        public Task<TSource> FirstOrDefaultAsync<TSource>([NotNull] IQueryable<TSource> source, CancellationToken cancellationToken = default)
         {
             return source.FirstOrDefaultAsync(cancellationToken);
         }

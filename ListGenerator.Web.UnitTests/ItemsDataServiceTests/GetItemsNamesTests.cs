@@ -1,22 +1,14 @@
-﻿using AutoMapper;
-using FluentAssertions;
-using FluentAssertions.Common;
-using ListGenerator.Client.ViewModels;
+﻿using FluentAssertions;
 using ListGenerator.Data.Entities;
-using ListGenerator.Data.Interfaces;
-using ListGenerator.Server.Interfaces;
-using ListGenerator.Server.Services;
 using ListGenerator.Shared.Dtos;
 using ListGenerator.Web.UnitTests.Helpers;
 using Moq;
 using NUnit.Framework;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Dynamic.Core;
 using System.Linq.Expressions;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 

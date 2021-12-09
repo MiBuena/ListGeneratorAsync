@@ -15,11 +15,11 @@ namespace ListGenerator.Data.Interfaces
 
         IQueryable<TEntity> AllAsNoTracking();
 
-        Task<int> CountAsync<TSource>([NotNullAttribute] IQueryable<TSource> source, CancellationToken cancellationToken = default);
+        Task<int> CountAsync<TSource>([NotNull] IQueryable<TSource> source, CancellationToken cancellationToken = default);
 
-        Task<List<TSource>> ToListAsync<TSource>([NotNullAttribute] IQueryable<TSource> source, CancellationToken cancellationToken = default);
+        Task<List<TSource>> ToListAsync<TSource>([NotNull] IQueryable<TSource> source, CancellationToken cancellationToken = default);
 
-        Task<TSource> FirstOrDefaultAsync<TSource>([NotNullAttribute] IQueryable<TSource> source, CancellationToken cancellationToken = default);
+        Task<TSource> FirstOrDefaultAsync<TSource>([NotNull] IQueryable<TSource> source, CancellationToken cancellationToken = default);
 
         void Add(TEntity entity);
 
