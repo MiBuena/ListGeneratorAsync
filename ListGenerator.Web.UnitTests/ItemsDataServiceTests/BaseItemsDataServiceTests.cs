@@ -14,6 +14,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
+using System.Threading;
 
 namespace ListGenerator.Web.UnitTests.ItemsDataServiceTests
 {
@@ -37,14 +38,21 @@ namespace ListGenerator.Web.UnitTests.ItemsDataServiceTests
             ItemsRepositoryMock.Setup(x => x.All()).Returns(allItems);
 
             var filteredItems = new List<Item>();
-            var filteredItemNameDtos = new List<ItemNameDto>();
+            var filteredItemNameDtosAsList = new List<ItemNameDto>();
+            IQueryable<ItemNameDto> filteredItemNameDtosAsQueryable = filteredItemNameDtosAsList.AsQueryable();
 
             MapperMock
                 .Setup(c => c.ProjectTo(
                     It.Is<IQueryable<Item>>(x => ItemsTestHelper.HaveTheSameElements(filteredItems, x)),
                     null,
                     It.Is<Expression<Func<ItemNameDto, object>>[]>(x => x.Length == 0)))
-                .Returns(filteredItemNameDtos.AsQueryable());
+             .Returns(filteredItemNameDtosAsQueryable);
+
+            ItemsRepositoryMock
+                .Setup(c => c.ToListAsync(
+                    It.Is<IQueryable<ItemNameDto>>(x => ItemsTestHelper.HaveTheSameElements(filteredItemNameDtosAsQueryable, x)),
+                    default(CancellationToken)))
+                .ReturnsAsync(filteredItemNameDtosAsList);
         }
 
         protected FilterPatemetersDto BuildParametersDto(int skipItems = 0, int pageSize = 2)
