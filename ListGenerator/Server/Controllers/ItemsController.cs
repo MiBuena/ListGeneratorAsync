@@ -51,9 +51,9 @@ namespace ListGenerator.Server.Controllers
         }
 
         [HttpGet("{id}")]
-        public IActionResult GetItemById(int id)
+        public async Task<IActionResult> GetItemById(int id)
         {
-            var response = _itemsDataService.GetItem(id, UserId);
+            var response = await _itemsDataService.GetItem(id, UserId);
 
             if (!response.IsSuccess)
             {
@@ -87,7 +87,7 @@ namespace ListGenerator.Server.Controllers
         }
 
         [HttpPut]
-        public IActionResult UpdateItem([FromBody] ItemDto itemDto)
+        public async Task<IActionResult> UpdateItem([FromBody] ItemDto itemDto)
         {
             if (itemDto == null)
             {
@@ -99,7 +99,7 @@ namespace ListGenerator.Server.Controllers
                 return BadRequest(ModelState);
             }
 
-            var getItemResponse = _itemsDataService.GetItem(itemDto.Id, UserId);
+            var getItemResponse = await _itemsDataService.GetItem(itemDto.Id, UserId);
             if (!getItemResponse.IsSuccess || getItemResponse.Data == null)
             {
                 return BadRequest(getItemResponse);
@@ -115,9 +115,9 @@ namespace ListGenerator.Server.Controllers
         }
 
         [HttpDelete("{id}")]
-        public IActionResult DeleteItem(int id)
+        public async Task<IActionResult> DeleteItem(int id)
         {
-            var getItemResponse = _itemsDataService.GetItem(id, UserId);
+            var getItemResponse = await _itemsDataService.GetItem(id, UserId);
             if (!getItemResponse.IsSuccess || getItemResponse.Data == null)
             {
                 return BadRequest(getItemResponse);

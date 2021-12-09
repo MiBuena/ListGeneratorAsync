@@ -176,13 +176,15 @@ namespace ListGenerator.Server.Services
             return query;
         }
 
-        public Response<ItemDto> GetItem(int itemId, string userId)
+        public async Task<Response<ItemDto>> GetItem(int itemId, string userId)
         {
             try
             {
                 var query = _itemsRepository.All().Where(x => x.Id == itemId && x.UserId == userId);
 
-                var dto = _mapper.ProjectTo<ItemDto>(query).FirstOrDefault();
+                var queryProjection = _mapper.ProjectTo<ItemDto>(query);
+
+                var dto = await _itemsRepository.FirstOrDefaultAsync(queryProjection);
 
                 dto.ThrowIfNullWithShowMessage($"Current user does not have item with id {itemId}");
 

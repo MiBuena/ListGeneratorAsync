@@ -9,7 +9,7 @@ namespace ListGenerator.Server.Interfaces
     {
         Task<Response<IEnumerable<ItemNameDto>>> GetItemsNamesAsync(string searchWord, string userId);
 
-        Response<ItemDto> GetItem(int itemId, string userId);
+        Task<Response<ItemDto>> GetItem(int itemId, string userId);
 
         BaseResponse AddItem(string userId, ItemDto itemDto);
 
