@@ -48,7 +48,7 @@ namespace ListGenerator.Web.UnitTests.ItemsDataServiceTests
             IQueryable<ItemNameDto> filteredItemNameDtosAsQueryable = filteredItemNameDtosAsList.AsQueryable();
 
             ItemsRepositoryMock
-                .Setup(c => c.ConvertToListAsync(
+                .Setup(c => c.ToListAsync(
                     It.Is<IQueryable<ItemNameDto>>(x => ItemsTestHelper.HaveTheSameElements(filteredItemNameDtosAsQueryable, x)),
                     default(CancellationToken)))
                 .ReturnsAsync(filteredItemNameDtosAsList);
