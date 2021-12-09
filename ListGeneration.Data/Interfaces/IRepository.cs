@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -14,7 +15,11 @@ namespace ListGenerator.Data.Interfaces
 
         IQueryable<TEntity> AllAsNoTracking();
 
-        Task<List<TSource>> ConvertToListAsync<TSource>([NotNullAttribute] IQueryable<TSource> source, CancellationToken cancellationToken = default);
+        Task<int> CountAsync<TSource>([NotNullAttribute] IQueryable<TSource> source, CancellationToken cancellationToken = default);
+
+        Task<List<TSource>> ToListAsync<TSource>([NotNullAttribute] IQueryable<TSource> source, CancellationToken cancellationToken = default);
+
+        Task<TSource> FirstOrDefaultAsync<TSource>([NotNullAttribute] IQueryable<TSource> source, CancellationToken cancellationToken = default);
 
         void Add(TEntity entity);
 
@@ -25,6 +30,5 @@ namespace ListGenerator.Data.Interfaces
         Task<int> SaveChangesAsync();
 
         void SaveChanges();
-
     }
 }

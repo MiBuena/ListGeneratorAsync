@@ -17,6 +17,6 @@ namespace ListGenerator.Server.Interfaces
 
         BaseResponse DeleteItem(int id, string userId);
 
-        Response<ItemsOverviewPageDto> GetItemsOverviewPageModel(string userId, FilterPatemetersDto dto);
+        Task<Response<ItemsOverviewPageDto>> GetItemsOverviewPageModel(string userId, FilterPatemetersDto dto);
     }
 }

@@ -38,9 +38,9 @@ namespace ListGenerator.Server.Controllers
         }
 
         [HttpGet("overview/{dto.PageSize:int?}/{dto.SkipItems:int?}/{dto.OrderByColumn?}/{dto.OrderByDirection?}/{dto.SearchWord?}/{dto.SearchDate?}")]
-        public IActionResult GetOverviewItems([FromQuery] FilterPatemetersDto dto)
+        public async Task<IActionResult> GetOverviewItems([FromQuery] FilterPatemetersDto dto)
         {
-            var response = _itemsDataService.GetItemsOverviewPageModel(this.UserId, dto);
+            var response = await _itemsDataService.GetItemsOverviewPageModel(this.UserId, dto);
 
             if (!response.IsSuccess)
             {

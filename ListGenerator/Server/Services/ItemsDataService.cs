@@ -55,7 +55,7 @@ namespace ListGenerator.Server.Services
                 }
 
                 var queryProjection = _mapper.ProjectTo<ItemNameDto>(query);
-                names = await _itemsRepository.ConvertToListAsync(queryProjection);
+                names = await _itemsRepository.ToListAsync(queryProjection);
 
                 var response = ResponseBuilder.Success<IEnumerable<ItemNameDto>>(names);
                 return response;
@@ -67,7 +67,7 @@ namespace ListGenerator.Server.Services
             }
         }
 
-        public Response<ItemsOverviewPageDto> GetItemsOverviewPageModel(string userId, FilterPatemetersDto dto)
+        public async Task<Response<ItemsOverviewPageDto>> GetItemsOverviewPageModel(string userId, FilterPatemetersDto dto)
         {
             try
             {
@@ -76,12 +76,13 @@ namespace ListGenerator.Server.Services
 
                 var query = GetOverviewItemsQuery(userId, dto);
 
-                var dtos = query
+                var pagedQuery = query
                     .Skip(dto.SkipItems.Value)
-                    .Take(dto.PageSize.Value)
-                    .ToList();
+                    .Take(dto.PageSize.Value);
 
-                var itemsCount = query.Count();
+                var dtos = await _itemsRepository.ToListAsync(pagedQuery);
+                    
+                var itemsCount = await _itemsRepository.CountAsync(query);
 
                 var pageDto = new ItemsOverviewPageDto()
                 {
