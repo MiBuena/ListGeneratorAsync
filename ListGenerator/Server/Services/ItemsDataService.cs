@@ -47,15 +47,13 @@ namespace ListGenerator.Server.Services
                 var query = _itemsRepository.All()
                     .Where(x => x.UserId == userId);
 
-                var names = new List<ItemNameDto>();
-
                 if (!string.IsNullOrEmpty(searchWord))
                 {
                     query = query.Where(x => x.Name.ToLower().Contains(searchWord.ToLower()));
                 }
 
                 var queryProjection = _mapper.ProjectTo<ItemNameDto>(query);
-                names = await _itemsRepository.ToListAsync(queryProjection);
+                var names = await _itemsRepository.ToListAsync(queryProjection);
 
                 var response = ResponseBuilder.Success<IEnumerable<ItemNameDto>>(names);
                 return response;

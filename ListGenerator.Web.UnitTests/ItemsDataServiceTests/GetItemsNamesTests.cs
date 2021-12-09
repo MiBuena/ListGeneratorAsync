@@ -36,9 +36,7 @@ namespace ListGenerator.Web.UnitTests.ItemsDataServiceTests
         {
             //Arrange
             var allItems = BuildItemsCollection();
-            ItemsRepositoryMock
-                .Setup(x => x.All())
-                .Returns(allItems);
+            ItemsRepositoryMock.Setup(x => x.All()).Returns(allItems);
 
             var filteredItem = BuildFirstItem();
             var filteredItems = new List<Item>() { filteredItem };
@@ -47,18 +45,19 @@ namespace ListGenerator.Web.UnitTests.ItemsDataServiceTests
             List<ItemNameDto> filteredItemNameDtosAsList = new List<ItemNameDto>() { filteredItemNameDto };
             IQueryable<ItemNameDto> filteredItemNameDtosAsQueryable = filteredItemNameDtosAsList.AsQueryable();
 
+            MapperMock
+                .Setup(c => c.ProjectTo(
+                    It.Is<IQueryable<Item>>(x => ItemsTestHelper.HaveTheSameElements(filteredItems, x)),
+                    null,
+                    It.Is<Expression<Func<ItemNameDto, object>>[]>(x => x.Length == 0)))
+                .Returns(filteredItemNameDtosAsQueryable);
+
             ItemsRepositoryMock
                 .Setup(c => c.ToListAsync(
                     It.Is<IQueryable<ItemNameDto>>(x => ItemsTestHelper.HaveTheSameElements(filteredItemNameDtosAsQueryable, x)),
                     default(CancellationToken)))
                 .ReturnsAsync(filteredItemNameDtosAsList);
 
-            MapperMock
-                .Setup(c => c.ProjectTo(
-                    It.Is<IQueryable<Item>>(x => ItemsTestHelper.HaveTheSameElements(filteredItems, x)),
-                    null,
-                    It.Is<Expression<Func<ItemNameDto, object>>[]>(x => x.Length == 0)))
-             .Returns(filteredItemNameDtosAsQueryable);
 
             //Act
             var result = await ItemsDataService.GetItemsNamesAsync("d", "ab70793b-cec8-4eba-99f3-cbad0b1649d0");
@@ -71,65 +70,80 @@ namespace ListGenerator.Web.UnitTests.ItemsDataServiceTests
                 );
         }
 
-        //[Test]
-        //public void Should_ReturnResponseWithCorrectItemName_When_OneItemNameOfThisUserContainSearchWord()
-        //{
-        //    //Arrange
-        //    var allItems = BuildItemsCollection();
-        //    ItemsRepositoryMock.Setup(x => x.All()).Returns(allItems);
+        [Test]
+        public async Task Should_ReturnResponseWithCorrectItemName_When_OneItemNameOfThisUserContainSearchWord()
+        {
+            //Arrange
+            var allItems = BuildItemsCollection();
+            ItemsRepositoryMock.Setup(x => x.All()).Returns(allItems);
 
-        //    var filteredItem = BuildFirstItem();
-        //    var filteredItems = new List<Item>() { filteredItem };
+            var filteredItem = BuildFirstItem();
+            var filteredItems = new List<Item>() { filteredItem };
 
-        //    var filteredItemNameDto = BuildFirstItemNameDto();
-        //    var filteredItemNameDtos = new List<ItemNameDto>() { filteredItemNameDto };
+            var filteredItemNameDto = BuildFirstItemNameDto();
+            List<ItemNameDto> filteredItemNameDtosAsList = new List<ItemNameDto>() { filteredItemNameDto };
+            IQueryable<ItemNameDto> filteredItemNameDtosAsQueryable = filteredItemNameDtosAsList.AsQueryable();
 
-        //    MapperMock
-        //        .Setup(c => c.ProjectTo(
-        //            It.Is<IQueryable<Item>>(x => ItemsTestHelper.HaveTheSameElements(filteredItems, x)),
-        //            null,
-        //            It.Is<Expression<Func<ItemNameDto, object>>[]>(x => x.Length == 0)))
-        //        .Returns(filteredItemNameDtos.AsQueryable());
+            MapperMock
+                .Setup(c => c.ProjectTo(
+                    It.Is<IQueryable<Item>>(x => ItemsTestHelper.HaveTheSameElements(filteredItems, x)),
+                    null,
+                    It.Is<Expression<Func<ItemNameDto, object>>[]>(x => x.Length == 0)))
+                .Returns(filteredItemNameDtosAsQueryable);
 
-        //    //Act
-        //    var result = ItemsDataService.GetItemsNamesAsync("d", "ab70793b-cec8-4eba-99f3-cbad0b1649d0");
+            ItemsRepositoryMock
+                .Setup(c => c.ToListAsync(
+                    It.Is<IQueryable<ItemNameDto>>(x => ItemsTestHelper.HaveTheSameElements(filteredItemNameDtosAsQueryable, x)),
+                    default(CancellationToken)))
+                .ReturnsAsync(filteredItemNameDtosAsList);
 
-        //    //Assert
-        //    result.Data.First().Name.Should().Be("Bread");
-        //}
+            //Act
+            var result = await ItemsDataService.GetItemsNamesAsync("d", "ab70793b-cec8-4eba-99f3-cbad0b1649d0");
 
-        //[Test]
-        //public void Should_ReturnSuccessResponseWithTwoEntries_When_TwoItemsNamesOfThisUserContainSearchWord()
-        //{
-        //    //Arrange
-        //    var allItems = BuildItemsCollection();
-        //    ItemsRepositoryMock.Setup(x => x.All()).Returns(allItems);
+            //Assert
+            result.Data.First().Name.Should().Be("Bread");
+        }
 
-        //    var firstFilteredItem = BuildFirstItem();
-        //    var secondFilteredItem = BuildThirdItem();
-        //    var filteredItems = new List<Item>() { firstFilteredItem, secondFilteredItem };
+        [Test]
+        public async Task Should_ReturnSuccessResponseWithTwoEntries_When_TwoItemsNamesOfThisUserContainSearchWord()
+        {
+            //Arrange
+            var allItems = BuildItemsCollection();
+            ItemsRepositoryMock.Setup(x => x.All()).Returns(allItems);
 
-        //    var firstFilteredItemNameDto = BuildFirstItemNameDto();
-        //    var secondFilteredItemNameDto = BuildThirdItemNameDto();
-        //    var filteredItemNameDtos = new List<ItemNameDto>() { firstFilteredItemNameDto, secondFilteredItemNameDto };
+            var firstFilteredItem = BuildFirstItem();
+            var secondFilteredItem = BuildThirdItem();
+            var filteredItems = new List<Item>() { firstFilteredItem, secondFilteredItem };
 
-        //    MapperMock
-        //        .Setup(c => c.ProjectTo(
-        //            It.Is<IQueryable<Item>>(x => ItemsTestHelper.HaveTheSameElements(filteredItems, x)),
-        //            null,
-        //            It.Is<Expression<Func<ItemNameDto, object>>[]>(x => x.Length == 0)))
-        //     .Returns(filteredItemNameDtos.AsQueryable());
+            var firstFilteredItemNameDto = BuildFirstItemNameDto();
+            var secondFilteredItemNameDto = BuildThirdItemNameDto();
+            var filteredItemNameDtosAsList = new List<ItemNameDto>() { firstFilteredItemNameDto, secondFilteredItemNameDto };
+            IQueryable<ItemNameDto> filteredItemNameDtosAsQueryable = filteredItemNameDtosAsList.AsQueryable();
 
-        //    //Act
-        //    var result = ItemsDataService.GetItemsNamesAsync("B", "ab70793b-cec8-4eba-99f3-cbad0b1649d0");
+            MapperMock
+                .Setup(c => c.ProjectTo(
+                    It.Is<IQueryable<Item>>(x => ItemsTestHelper.HaveTheSameElements(filteredItems, x)),
+                    null,
+                    It.Is<Expression<Func<ItemNameDto, object>>[]>(x => x.Length == 0)))
+             .Returns(filteredItemNameDtosAsList.AsQueryable());
 
-        //    //Assert
-        //    AssertHelper.AssertAll(
-        //        () => result.Data.Count().Should().Be(2),
-        //        () => result.IsSuccess.Should().BeTrue(),
-        //        () => result.ErrorMessage.Should().BeNull()
-        //        );
-        //}
+
+            ItemsRepositoryMock
+                .Setup(c => c.ToListAsync(
+                    It.Is<IQueryable<ItemNameDto>>(x => ItemsTestHelper.HaveTheSameElements(filteredItemNameDtosAsQueryable, x)),
+                    default(CancellationToken)))
+                .ReturnsAsync(filteredItemNameDtosAsList);
+
+            //Act
+            var result = await ItemsDataService.GetItemsNamesAsync("B", "ab70793b-cec8-4eba-99f3-cbad0b1649d0");
+
+            //Assert
+            AssertHelper.AssertAll(
+                () => result.Data.Count().Should().Be(2),
+                () => result.IsSuccess.Should().BeTrue(),
+                () => result.ErrorMessage.Should().BeNull()
+                );
+        }
 
 
         //[Test]
