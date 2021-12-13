@@ -1,12 +1,15 @@
 ﻿using AutoMapper;
+using ListGeneration.Data.Interfaces;
 using ListGenerator.Data.Entities;
 using ListGenerator.Data.Interfaces;
+using ListGenerator.Server.CommonResources;
 using ListGenerator.Server.Interfaces;
 using ListGenerator.Server.Services;
 using ListGenerator.Shared.Dtos;
 using ListGenerator.Shared.Interfaces;
 using ListGenerator.Web.UnitTests.Helpers;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
+using Microsoft.Extensions.Localization;
 using Moq;
 using NUnit.Framework;
 using System;
@@ -23,37 +26,21 @@ namespace ListGenerator.Web.UnitTests.ItemsDataServiceTests
         [SetUp]
         protected virtual void Init()
         {
-            ItemsRepositoryMock = new Mock<IRepository<Item>>(MockBehavior.Strict);
+            ItemsRepositoryMock = new Mock<IItemsRepository>(MockBehavior.Strict);
+            UnitOfWorkMock = new Mock<IUnitOfWork>(MockBehavior.Strict);
+            UnitOfWorkMock.Setup(x => x.ItemsRepository).Returns(ItemsRepositoryMock.Object);
+
             MapperMock = new Mock<IMapper>(MockBehavior.Strict);
-            ItemsDataService = new ItemsDataService(ItemsRepositoryMock.Object, MapperMock.Object, null);
+            StringLocalizerMock = new Mock<IStringLocalizer<Errors>>(MockBehavior.Strict);
+            ItemsDataService = new ItemsDataService(UnitOfWorkMock.Object, MapperMock.Object, StringLocalizerMock.Object);
         }
 
-        protected Mock<IRepository<Item>> ItemsRepositoryMock { get; private set; }
+        protected Mock<IItemsRepository> ItemsRepositoryMock { get; private set; }
+        protected Mock<IUnitOfWork> UnitOfWorkMock { get; private set; }
         protected Mock<IMapper> MapperMock { get; private set; }
+        protected Mock<IStringLocalizer<Errors>> StringLocalizerMock { get; private set; }
         protected IItemsDataService ItemsDataService { get; private set; }
 
-        protected void InitializeMocksWithEmptyCollection()
-        {
-            var allItems = new List<Item>().AsQueryable();
-            ItemsRepositoryMock.Setup(x => x.All()).Returns(allItems);
-
-            var filteredItems = new List<Item>();
-            var filteredItemNameDtosAsList = new List<ItemNameDto>();
-            IQueryable<ItemNameDto> filteredItemNameDtosAsQueryable = filteredItemNameDtosAsList.AsQueryable();
-
-            MapperMock
-                .Setup(c => c.ProjectTo(
-                    It.Is<IQueryable<Item>>(x => ItemsTestHelper.HaveTheSameElements(filteredItems, x)),
-                    null,
-                    It.Is<Expression<Func<ItemNameDto, object>>[]>(x => x.Length == 0)))
-             .Returns(filteredItemNameDtosAsQueryable);
-
-            ItemsRepositoryMock
-                .Setup(c => c.ToListAsync(
-                    It.Is<IQueryable<ItemNameDto>>(x => ItemsTestHelper.HaveTheSameElements(filteredItemNameDtosAsQueryable, x)),
-                    default(CancellationToken)))
-                .ReturnsAsync(filteredItemNameDtosAsList);
-        }
 
         protected FilterPatemetersDto BuildParametersDto(int skipItems = 0, int pageSize = 2)
         {

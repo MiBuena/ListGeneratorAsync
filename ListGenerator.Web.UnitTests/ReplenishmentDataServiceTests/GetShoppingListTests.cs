@@ -9,15 +9,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace ListGenerator.Web.UnitTests.ReplenishmentDataServiceTests
-{
-    public class GetShoppingListTests : BaseReplenishmentDataServiceTests
-    {
-        [SetUp]
-        protected override void Init()
-        {
-            base.Init();
-        }
+//namespace ListGenerator.Web.UnitTests.ReplenishmentDataServiceTests
+//{
+    //public class GetShoppingListTests : BaseReplenishmentDataServiceTests
+    //{
+    //    [SetUp]
+    //    protected override void Init()
+    //    {
+    //        base.Init();
+    //    }
 
         //[Test]
         //public void Should_ReturnSuccessResponse_When_ValidInputparameters()
@@ -106,5 +106,5 @@ namespace ListGenerator.Web.UnitTests.ReplenishmentDataServiceTests
         //        );
         //}
 
-    }
-}
+//    }
+//}
