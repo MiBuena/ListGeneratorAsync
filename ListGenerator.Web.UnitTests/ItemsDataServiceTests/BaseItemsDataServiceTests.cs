@@ -1,23 +1,16 @@
 ﻿using AutoMapper;
 using ListGeneration.Data.Interfaces;
 using ListGenerator.Data.Entities;
-using ListGenerator.Data.Interfaces;
 using ListGenerator.Server.CommonResources;
 using ListGenerator.Server.Interfaces;
 using ListGenerator.Server.Services;
 using ListGenerator.Shared.Dtos;
-using ListGenerator.Shared.Interfaces;
-using ListGenerator.Web.UnitTests.Helpers;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.Extensions.Localization;
 using Moq;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Expressions;
-using System.Text;
-using System.Threading;
 
 namespace ListGenerator.Web.UnitTests.ItemsDataServiceTests
 {
