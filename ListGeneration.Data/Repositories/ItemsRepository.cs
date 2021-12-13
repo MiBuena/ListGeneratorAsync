@@ -146,5 +146,17 @@ namespace ListGeneration.Data.Repositories
 
             return query;
         }
+
+        public async Task<IEnumerable<Item>> GetShoppingListItemsAsync(DateTime date, string userId)
+        {
+            var query = this.Context.Items
+                .Where(x => x.NextReplenishmentDate.Date < date
+                && x.UserId == userId)
+                .OrderBy(x => x.NextReplenishmentDate);
+
+            var itemsNeedingReplenishment = await query.ToListAsync();
+
+            return itemsNeedingReplenishment;
+        }
     }
 }

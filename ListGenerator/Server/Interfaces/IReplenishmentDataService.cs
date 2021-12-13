@@ -9,8 +9,8 @@ namespace ListGenerator.Server.Interfaces
 {
     public interface IReplenishmentDataService
     {
-        Response<IEnumerable<ReplenishmentItemDto>> GetShoppingList(string firstReplenishmentDateAsString, string secondReplenishmentDateAsString, string userId);
+        Task<Response<IEnumerable<ReplenishmentItemDto>>> GetShoppingListAsync(string firstReplenishmentDateAsString, string secondReplenishmentDateAsString, string userId);
 
-        void ReplenishItems(ReplenishmentDto dto);
+        Task ReplenishItemsAsync(ReplenishmentDto dto);
     }
 }

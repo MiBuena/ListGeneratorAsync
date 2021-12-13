@@ -2,6 +2,7 @@
 using ListGenerator.Server.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
 
 namespace ListGenerator.Server.Controllers
 {
@@ -19,9 +20,9 @@ namespace ListGenerator.Server.Controllers
 
 
         [HttpGet("shoppinglist/{firstReplenishmentDate}/{secondReplenishmentDate}")]
-        public IActionResult GetShoppingList(string firstReplenishmentDate, string secondReplenishmentDate)
+        public async Task<IActionResult> GetShoppingListAsync(string firstReplenishmentDate, string secondReplenishmentDate)
         {
-            var response = _replenishmentDataService.GetShoppingList(firstReplenishmentDate, secondReplenishmentDate, this.UserId);
+            var response = await _replenishmentDataService.GetShoppingListAsync(firstReplenishmentDate, secondReplenishmentDate, this.UserId);
            
             if (!response.IsSuccess)
             {
@@ -44,7 +45,7 @@ namespace ListGenerator.Server.Controllers
                 return BadRequest(ModelState);
             }
 
-            _replenishmentDataService.ReplenishItems(model);
+            _replenishmentDataService.ReplenishItemsAsync(model);
 
             return Ok();
         }

@@ -13,11 +13,13 @@ using ListGenerator.Shared.Responses;
 using ListGenerator.Server.Builders;
 using ListGenerator.Client.Builders;
 using ListGenerator.Shared.Extensions;
+using ListGeneration.Data.Interfaces;
 
 namespace ListGenerator.Server.Services
 {
     public class ReplenishmentDataService : IReplenishmentDataService
     {
+        private readonly IUnitOfWork _unitOfWork;
         private readonly IRepository<Item> _itemsRepository;
         private readonly IRepository<Purchase> _purchaseRepository;
         private readonly IMapper _mapper;
@@ -25,16 +27,18 @@ namespace ListGenerator.Server.Services
 
         public ReplenishmentDataService(IRepository<Item> items, 
             IMapper mapper, 
+            IUnitOfWork unitOfWork,
             IRepository<Purchase> purchaseRepository, 
             IReplenishmentItemBuilder replenishmentItemBuilder)
         {
+            _unitOfWork = unitOfWork;
             _itemsRepository = items;
             _purchaseRepository = purchaseRepository;
             _mapper = mapper;
             _replenishmentItemBuilder = replenishmentItemBuilder;
         }
 
-        public Response<IEnumerable<ReplenishmentItemDto>> GetShoppingList(string firstReplenishmentDateAsString, string secondReplenishmentDateAsString, string userId)
+        public async Task<Response<IEnumerable<ReplenishmentItemDto>>> GetShoppingListAsync(string firstReplenishmentDateAsString, string secondReplenishmentDateAsString, string userId)
         {
             try
             {
@@ -45,7 +49,7 @@ namespace ListGenerator.Server.Services
                 var firstReplenishmentDate = DateTimeHelper.ToDateFromTransferDateAsString(firstReplenishmentDateAsString);
                 var secondReplenishmentDate = DateTimeHelper.ToDateFromTransferDateAsString(secondReplenishmentDateAsString);
 
-                var itemsNeedingReplenishment = GetShoppingListItems(secondReplenishmentDate, userId);
+                var itemsNeedingReplenishment = await _unitOfWork.ItemsRepository.GetShoppingListItemsAsync(secondReplenishmentDate, userId);
                 var replenishmentDtos = _replenishmentItemBuilder.BuildReplenishmentItemsDtos(firstReplenishmentDate, secondReplenishmentDate, itemsNeedingReplenishment);
                
                 var response = ResponseBuilder.Success(replenishmentDtos);
@@ -58,21 +62,11 @@ namespace ListGenerator.Server.Services
             }
         }
 
-        private IEnumerable<Item> GetShoppingListItems(DateTime date, string userId)
+
+
+        public async Task ReplenishItemsAsync(ReplenishmentDto replenishmentData)
         {
-            var query = _itemsRepository.All()
-                .Where(x => x.NextReplenishmentDate.Date < date
-                && x.UserId == userId)
-                .OrderBy(x => x.NextReplenishmentDate);
-
-            var itemsNeedingReplenishment = query.ToList();
-
-            return itemsNeedingReplenishment;
-        }
-
-        public void ReplenishItems(ReplenishmentDto replenishmentData)
-        {
-            var allItems = _itemsRepository.All().ToList();
+            var allItems = await _unitOfWork.ItemsRepository.GetListAsync();
 
             foreach (var purchaseItem in replenishmentData.Purchaseitems)
             {
