@@ -88,7 +88,6 @@ namespace ListGenerator.Web.UnitTests.ItemsDataServiceTests
                 .Setup(c => c.GetItemsNamesDtosAsync(string.Empty, "ab70793b-cec8-4eba-99f3-cbad0b1649d0"))
                 .ReturnsAsync(filteredItemNameDtosAsList);
 
-
             //Act
             var result = await ItemsDataService.GetItemsNamesAsync(string.Empty, "ab70793b-cec8-4eba-99f3-cbad0b1649d0");
 
@@ -111,7 +110,6 @@ namespace ListGenerator.Web.UnitTests.ItemsDataServiceTests
             ItemsRepositoryMock
                 .Setup(c => c.GetItemsNamesDtosAsync(string.Empty, "ab70793b-cec8-4eba-99f3-cbad0b1649d0"))
                 .ReturnsAsync(filteredItemNameDtosAsList);
-
 
             //Act
             var result = await ItemsDataService.GetItemsNamesAsync(string.Empty, "ab70793b-cec8-4eba-99f3-cbad0b1649d0");
@@ -162,6 +160,69 @@ namespace ListGenerator.Web.UnitTests.ItemsDataServiceTests
 
             //Assert
             result.Data.First().Name.Should().Be("Bread");
+        }
+
+        [Test]
+        public async Task Should_ReturnSuccessResponseWithTwoEntries_When_TwoItemsNamesOfThisUserContainSearchWord()
+        {
+            //Arrange
+            var firstFilteredItemNameDto = BuildFirstItemNameDto();
+            var secondFilteredItemNameDto = BuildThirdItemNameDto();
+            var filteredItemNameDtosAsList = new List<ItemNameDto>() { firstFilteredItemNameDto, secondFilteredItemNameDto };
+
+            ItemsRepositoryMock
+                .Setup(c => c.GetItemsNamesDtosAsync("d", "ab70793b-cec8-4eba-99f3-cbad0b1649d0"))
+                .ReturnsAsync(filteredItemNameDtosAsList);
+
+            //Act
+            var result = await ItemsDataService.GetItemsNamesAsync("d", "ab70793b-cec8-4eba-99f3-cbad0b1649d0");
+
+            //Assert
+            AssertHelper.AssertAll(
+                () => result.Data.Count().Should().Be(2),
+                () => result.IsSuccess.Should().BeTrue(),
+                () => result.ErrorMessage.Should().BeNull()
+                );
+        }
+
+        [Test]
+        public async Task Should_ReturnResponseWithCorrectItemsNames_When_TwoItemsNamesOfThisUserContainSearchWord()
+        {
+            //Arrange
+            var firstFilteredItemNameDto = BuildFirstItemNameDto();
+            var secondFilteredItemNameDto = BuildThirdItemNameDto();
+            var filteredItemNameDtosAsList = new List<ItemNameDto>() { firstFilteredItemNameDto, secondFilteredItemNameDto };
+
+            ItemsRepositoryMock
+                .Setup(c => c.GetItemsNamesDtosAsync("d", "ab70793b-cec8-4eba-99f3-cbad0b1649d0"))
+                .ReturnsAsync(filteredItemNameDtosAsList);
+
+            //Act
+            var result = await ItemsDataService.GetItemsNamesAsync("d", "ab70793b-cec8-4eba-99f3-cbad0b1649d0");
+
+            //Assert
+            AssertHelper.AssertAll(
+            () => result.Data.First().Name.Should().Be("Bread"),
+            () => result.Data.Skip(1).First().Name.Should().Be("Biscuits"));
+        }
+
+        [Test]
+        public async Task Should_ReturnErrorResponse_When_AnExceptionOccursInRepositoryAllMethod()
+        {
+            //Arrange
+            ItemsRepositoryMock
+                .Setup(c => c.GetItemsNamesDtosAsync("B", "ab70793b-cec8-4eba-99f3-cbad0b1649d0"))
+                .Throws(new Exception());
+
+            //Act
+            var result = await ItemsDataService.GetItemsNamesAsync("B", "ab70793b-cec8-4eba-99f3-cbad0b1649d0");
+
+            //Assert
+            AssertHelper.AssertAll(
+                () => result.IsSuccess.Should().BeFalse(),
+                () => result.ErrorMessage.Should().Be("An error occured while getting items names."),
+                () => result.Data.Should().BeNull()
+            );
         }
     }
 }
