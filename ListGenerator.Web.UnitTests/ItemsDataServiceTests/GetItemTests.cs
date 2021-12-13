@@ -52,7 +52,7 @@ namespace ListGenerator.Web.UnitTests.ItemsDataServiceTests
 
 
             //Act
-            var result = await ItemsDataService.GetItem(2, "ab70793b-cec8-4eba-99f3-cbad0b1649d0");
+            var result = await ItemsDataService.GetItemAsync(2, "ab70793b-cec8-4eba-99f3-cbad0b1649d0");
 
 
             //Assert
@@ -93,7 +93,7 @@ namespace ListGenerator.Web.UnitTests.ItemsDataServiceTests
 
 
             //Act
-            var result = await ItemsDataService.GetItem(2, "ab70793b-cec8-4eba-99f3-cbad0b1649d0");
+            var result = await ItemsDataService.GetItemAsync(2, "ab70793b-cec8-4eba-99f3-cbad0b1649d0");
 
 
             //Assert

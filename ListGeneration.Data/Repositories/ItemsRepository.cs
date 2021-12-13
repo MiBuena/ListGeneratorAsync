@@ -36,5 +36,15 @@ namespace ListGeneration.Data.Repositories
 
             return names;
         }
+
+        public async Task<ItemDto> GetItemDtoAsync(int itemId, string userId)
+        {
+            var query = this.Context.Items.Where(x => x.Id == itemId && x.UserId == userId);
+
+            var dto = await _mapper.ProjectTo<ItemDto>(query)
+                .FirstOrDefaultAsync();
+
+            return dto;
+        }
     }
 }

@@ -9,5 +9,6 @@ namespace ListGeneration.Data.Interfaces
     public interface IItemsRepository
     {
         Task<IEnumerable<ItemNameDto>> GetItemsNamesDtosAsync(string searchWord, string userId);
+        Task<ItemDto> GetItemDtoAsync(int itemId, string userId);
     }
 }

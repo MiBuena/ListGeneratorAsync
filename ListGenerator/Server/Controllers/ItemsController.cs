@@ -53,7 +53,7 @@ namespace ListGenerator.Server.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> GetItemById(int id)
         {
-            var response = await _itemsDataService.GetItem(id, UserId);
+            var response = await _itemsDataService.GetItemAsync(id, UserId);
 
             if (!response.IsSuccess)
             {
@@ -99,7 +99,7 @@ namespace ListGenerator.Server.Controllers
                 return BadRequest(ModelState);
             }
 
-            var getItemResponse = await _itemsDataService.GetItem(itemDto.Id, UserId);
+            var getItemResponse = await _itemsDataService.GetItemAsync(itemDto.Id, UserId);
             if (!getItemResponse.IsSuccess || getItemResponse.Data == null)
             {
                 return BadRequest(getItemResponse);
@@ -117,7 +117,7 @@ namespace ListGenerator.Server.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteItem(int id)
         {
-            var getItemResponse = await _itemsDataService.GetItem(id, UserId);
+            var getItemResponse = await _itemsDataService.GetItemAsync(id, UserId);
             if (!getItemResponse.IsSuccess || getItemResponse.Data == null)
             {
                 return BadRequest(getItemResponse);
