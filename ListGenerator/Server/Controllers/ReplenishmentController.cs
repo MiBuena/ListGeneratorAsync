@@ -33,7 +33,7 @@ namespace ListGenerator.Server.Controllers
         }
 
         [HttpPost("replenish")]
-        public IActionResult ReplenishItems([FromBody] ReplenishmentDto model)
+        public async Task<IActionResult> ReplenishItemsAsync([FromBody] ReplenishmentDto model)
         {
             if (model == null)
             {
@@ -45,7 +45,7 @@ namespace ListGenerator.Server.Controllers
                 return BadRequest(ModelState);
             }
 
-            _replenishmentDataService.ReplenishItemsAsync(model);
+            await _replenishmentDataService.ReplenishItemsAsync(model);
 
             return Ok();
         }

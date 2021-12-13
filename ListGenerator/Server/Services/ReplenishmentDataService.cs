@@ -20,20 +20,14 @@ namespace ListGenerator.Server.Services
     public class ReplenishmentDataService : IReplenishmentDataService
     {
         private readonly IUnitOfWork _unitOfWork;
-        private readonly IRepository<Item> _itemsRepository;
-        private readonly IRepository<Purchase> _purchaseRepository;
         private readonly IMapper _mapper;
         private readonly IReplenishmentItemBuilder _replenishmentItemBuilder;
 
-        public ReplenishmentDataService(IRepository<Item> items, 
-            IMapper mapper, 
-            IUnitOfWork unitOfWork,
-            IRepository<Purchase> purchaseRepository, 
+        public ReplenishmentDataService(IUnitOfWork unitOfWork, 
+            IMapper mapper,
             IReplenishmentItemBuilder replenishmentItemBuilder)
         {
             _unitOfWork = unitOfWork;
-            _itemsRepository = items;
-            _purchaseRepository = purchaseRepository;
             _mapper = mapper;
             _replenishmentItemBuilder = replenishmentItemBuilder;
         }
@@ -63,7 +57,6 @@ namespace ListGenerator.Server.Services
         }
 
 
-
         public async Task ReplenishItemsAsync(ReplenishmentDto replenishmentData)
         {
             var allItems = await _unitOfWork.ItemsRepository.GetListAsync();
@@ -72,7 +65,7 @@ namespace ListGenerator.Server.Services
             {
                 var purchase = _mapper.Map<PurchaseItemDto, Purchase>(purchaseItem);
 
-                _purchaseRepository.Add(purchase);
+                _unitOfWork.PurchasesRepository.Add(purchase);
 
 
                 var item = allItems.FirstOrDefault(x => x.Id == purchaseItem.ItemId);
@@ -80,7 +73,7 @@ namespace ListGenerator.Server.Services
                 item.NextReplenishmentDate = CalculateNextReplenishmentDateTime(item.ReplenishmentPeriod, purchaseItem.Quantity, item.NextReplenishmentDate, purchaseItem.ReplenishmentDate);
             }
 
-            _itemsRepository.SaveChanges();
+            await _unitOfWork.SaveChangesAsync();
         }
 
         private DateTime CalculateNextReplenishmentDateTime(double itemReplenishmentPeriod, int purchasedQuantity, DateTime previousReplenishmentDate, DateTime replenishmentDate)
