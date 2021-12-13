@@ -5,7 +5,7 @@ using System.Linq.Expressions;
 using System.Reflection;
 using System.Threading.Tasks;
 
-namespace ListGenerator.Server.Extensions
+namespace ListGenerator.Shared.Extensions
 {
     public static class CollectionExtensions
     {

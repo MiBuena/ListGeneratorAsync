@@ -6,7 +6,6 @@ using System.Collections.Generic;
 using System.Linq;
 using ListGenerator.Data.Interfaces;
 using ListGenerator.Data.Entities;
-using ListGenerator.Server.Extensions;
 using ListGenerator.Shared.Enums;
 using ListGenerator.Shared.Helpers;
 using ListGenerator.Shared.Responses;
@@ -67,22 +66,8 @@ namespace ListGenerator.Server.Services
                 userId.ThrowIfNullOrEmpty();
                 dto.ThrowIfNull();
 
-                var query = GetOverviewItemsQuery(userId, dto);
-
-                var pagedQuery = query
-                    .Skip(dto.SkipItems.Value)
-                    .Take(dto.PageSize.Value);
-
-                var dtos = await _itemsRepository.ToListAsync(pagedQuery);
-                    
-                var itemsCount = await _itemsRepository.CountAsync(query);
-
-                var pageDto = new ItemsOverviewPageDto()
-                {
-                    OverviewItems = dtos,
-                    TotalItemsCount = itemsCount
-                };
-
+                var pageDto = await _unitOfWork.ItemsRepository.GetItemsOverviewPageDtosAsync(userId, dto);
+              
                 var response = ResponseBuilder.Success(pageDto);
                 return response;
             }
@@ -92,83 +77,6 @@ namespace ListGenerator.Server.Services
                 var response = ResponseBuilder.Failure<ItemsOverviewPageDto>(errorMessage);
                 return response;
             }
-        }
-
-        private IQueryable<ItemOverviewDto> GetOverviewItemsQuery(string userId, FilterPatemetersDto dto)
-        {
-            var query = GetBaseQuery(userId);
-
-            query = FilterBySearchWord(dto.SearchWord, query);
-
-            query = FilterBySearchDate(dto.SearchDate, query);
-
-            query = Sort(dto.OrderByColumn, dto.OrderByDirection, query);
-
-            return query;
-        }
-
-        private IQueryable<ItemOverviewDto> FilterBySearchDate(string searchDate, IQueryable<ItemOverviewDto> query)
-        {
-            if (searchDate != null)
-            {
-                var parsedDate = DateTimeHelper.ToDateFromTransferDateAsString(searchDate);
-
-                query = query
-                    .Where(x => x.LastReplenishmentDate == parsedDate
-                || x.NextReplenishmentDate == parsedDate);
-            }
-
-            return query;
-        }
-
-        private IQueryable<ItemOverviewDto> FilterBySearchWord(string searchWord, IQueryable<ItemOverviewDto> query)
-        {
-            if (searchWord != null)
-            {
-                query = query.Where(x => x.Name.ToLower().Contains(searchWord.ToLower()));
-            }
-
-            return query;
-        }
-
-        private IQueryable<ItemOverviewDto> Sort(string orderByColumn, SortingDirection? orderByDirection, IQueryable<ItemOverviewDto> query)
-        {
-            if (orderByColumn != null && orderByDirection != null)
-            {
-                if (orderByDirection == SortingDirection.Ascending)
-                {
-                    query = query.OrderByProperty(orderByColumn);
-                }
-                else
-                {
-                    query = query.OrderByPropertyDescending(orderByColumn);
-                }
-            }
-
-            return query;
-        }
-
-        private IQueryable<ItemOverviewDto> GetBaseQuery(string userId)
-        {
-            var query = _itemsRepository.All()
-                .Where(x => x.UserId == userId)
-                .Select(x => new ItemOverviewDto()
-                {
-                    Id = x.Id,
-                    Name = x.Name,
-                    ReplenishmentPeriod = x.ReplenishmentPeriod,
-                    NextReplenishmentDate = x.NextReplenishmentDate,
-                    LastReplenishmentDate = x.Purchases
-                                     .OrderByDescending(y => y.ReplenishmentDate)
-                                     .Select(m => (DateTime?) m.ReplenishmentDate)
-                                     .FirstOrDefault(),
-                    LastReplenishmentQuantity = x.Purchases
-                                     .OrderByDescending(y => y.ReplenishmentDate)
-                                     .Select(m => (int?) m.Quantity)
-                                     .FirstOrDefault(),
-                });
-
-            return query;
         }
 
         public async Task<Response<ItemDto>> GetItemAsync(int itemId, string userId)
