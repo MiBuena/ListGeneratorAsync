@@ -15,7 +15,7 @@ using System.Threading.Tasks;
 
 namespace ListGeneration.Data.Repositories
 {
-    public class ItemsRepository : AsyncRepository<Item>, IItemsRepository
+    public class ItemsRepository : EfRepository<Item>, IItemsRepository
     {
         private readonly IMapper _mapper;
 

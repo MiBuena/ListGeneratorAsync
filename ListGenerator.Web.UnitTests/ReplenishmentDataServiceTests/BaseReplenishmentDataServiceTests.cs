@@ -1,14 +1,9 @@
 ﻿using AutoMapper;
 using ListGenerator.Data.Entities;
-using ListGenerator.Data.Interfaces;
 using ListGenerator.Server.Interfaces;
 using ListGenerator.Server.Services;
-using ListGenerator.Shared.Interfaces;
 using Moq;
 using NUnit.Framework;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace ListGenerator.Web.UnitTests.ReplenishmentDataServiceTests
 {

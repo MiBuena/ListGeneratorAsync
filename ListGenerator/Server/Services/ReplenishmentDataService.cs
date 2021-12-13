@@ -5,13 +5,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using ListGenerator.Data.Interfaces;
 using ListGenerator.Data.Entities;
-using ListGenerator.Shared.Interfaces;
 using ListGenerator.Shared.Helpers;
 using ListGenerator.Shared.Responses;
 using ListGenerator.Server.Builders;
-using ListGenerator.Client.Builders;
 using ListGenerator.Shared.Extensions;
 using ListGeneration.Data.Interfaces;
 

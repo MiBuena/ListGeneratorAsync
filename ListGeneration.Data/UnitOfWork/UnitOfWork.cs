@@ -1,10 +1,6 @@
 ﻿using ListGeneration.Data.Interfaces;
 using ListGenerator.Data.Entities;
-using ListGenerator.Data.Interfaces;
 using ListGeneratorListGenerator.Data.DB;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace ListGeneration.Data.UnitOfWork

@@ -3,20 +3,14 @@ using ListGenerator.Shared.Dtos;
 using ListGenerator.Server.Interfaces;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using ListGenerator.Data.Interfaces;
 using ListGenerator.Data.Entities;
-using ListGenerator.Shared.Enums;
-using ListGenerator.Shared.Helpers;
 using ListGenerator.Shared.Responses;
-using ListGenerator.Client.Builders;
 using ListGenerator.Server.Builders;
 using ListGenerator.Shared.Extensions;
 using ListGenerator.Shared.CustomExceptions;
 using ListGenerator.Server.CommonResources;
 using Microsoft.Extensions.Localization;
 using System.Threading.Tasks;
-using ListGenerator.Shared.Interfaces;
 using ListGeneration.Data.Interfaces;
 
 namespace ListGenerator.Server.Services

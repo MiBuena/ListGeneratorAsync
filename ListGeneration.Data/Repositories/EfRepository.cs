@@ -1,4 +1,4 @@
-﻿using ListGenerator.Data.Interfaces;
+﻿using ListGeneration.Data.Interfaces;
 using ListGeneratorListGenerator.Data.DB;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -6,61 +6,88 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace ListGenerator.Data.Repositories
+namespace ListGeneration.Data.Repositories
 {
-    public class EfRepository<TEntity> : IRepository<TEntity>
-            where TEntity : class
+    public class EfRepository<TEntity> : IAsyncRepository<TEntity>
+        where TEntity : class
     {
+        private readonly ApplicationDbContext context;
+        private readonly DbSet<TEntity> dbSet;
+
         public EfRepository(ApplicationDbContext context)
         {
-            this.Context = context ?? throw new ArgumentNullException(nameof(context));
-            this.DbSet = this.Context.Set<TEntity>();
+            this.context = context;
+            this.dbSet = context.Set<TEntity>();
         }
 
-        protected DbSet<TEntity> DbSet { get; set; }
+        protected ApplicationDbContext Context => this.context;
 
-        protected ApplicationDbContext Context { get; set; }
-
-        public virtual IQueryable<TEntity> All() => this.DbSet;
-
-        public virtual IQueryable<TEntity> AllAsNoTracking() => this.DbSet.AsNoTracking();
-
-
-        public Task<List<TSource>> ToListAsync<TSource>([NotNull] IQueryable<TSource> source, CancellationToken cancellationToken = default)
+        public virtual async Task<IEnumerable<TEntity>> GetListAsync(
+            Expression<Func<TEntity, bool>> filter = null,
+            Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null,
+            CancellationToken cancellationToken = default)
         {
-            return source.ToListAsync(cancellationToken);
+            var query = ApplyCommonManipulations(filter, orderBy);
+
+            return await query.ToListAsync(cancellationToken);
         }
 
-        public Task<TSource> FirstOrDefaultAsync<TSource>([NotNull] IQueryable<TSource> source, CancellationToken cancellationToken = default)
+        public async Task<TEntity> FirstOrDefaultAsync(
+            Expression<Func<TEntity, bool>> filter = null,
+            Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null,
+            CancellationToken cancellationToken = default)
         {
-            return source.FirstOrDefaultAsync(cancellationToken);
+            var query = ApplyCommonManipulations(filter, orderBy);
+
+            return await query.FirstOrDefaultAsync(cancellationToken);
         }
 
-        public Task<int> CountAsync<TSource>([NotNull] IQueryable<TSource> source, CancellationToken cancellationToken = default)
+        private IQueryable<TEntity> ApplyCommonManipulations(Expression<Func<TEntity, bool>> filter = null,
+            Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null)
         {
-            return source.CountAsync(cancellationToken);
-        }
+            IQueryable<TEntity> query = dbSet;
 
-        public virtual void Add(TEntity entity) => this.DbSet.Add(entity);       
-
-        public virtual void Update(TEntity entity)
-        {
-            var entry = this.Context.Entry(entity);
-            if (entry.State == EntityState.Detached)
+            if (filter != null)
             {
-                this.DbSet.Attach(entity);
+                query = query.Where(filter);
             }
 
-            entry.State = EntityState.Modified;
+            if (orderBy != null)
+            {
+                query = orderBy(query);
+            }
+
+            return query;
         }
 
-        public virtual void Delete(TEntity entity) => this.DbSet.Remove(entity);
+        public void Add(TEntity entity)
+        {
+            dbSet.Add(entity);
+        }
 
-        public Task<int> SaveChangesAsync() => this.Context.SaveChangesAsync();
+        public void Delete(int id)
+        {
+            TEntity entityToDelete = dbSet.Find(id);
+            Delete(entityToDelete);
+        }
 
-        public void SaveChanges() => this.Context.SaveChanges();
+        public void Delete(TEntity entityToDelete)
+        {
+            if (context.Entry(entityToDelete).State == EntityState.Detached)
+            {
+                dbSet.Attach(entityToDelete);
+            }
+            dbSet.Remove(entityToDelete);
+        }
+
+        public void Update(TEntity entityToUpdate)
+        {
+            dbSet.Attach(entityToUpdate);
+            context.Entry(entityToUpdate).State = EntityState.Modified;
+        }
     }
 }

@@ -1,14 +1,9 @@
 ﻿using FluentAssertions;
 using ListGenerator.Data.Entities;
-using ListGenerator.Data.Interfaces;
-using ListGenerator.Server.Interfaces;
 using ListGenerator.Shared.Dtos;
-using ListGenerator.Web.UnitTests.Helpers;
 using Moq;
 using NUnit.Framework;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace ListGenerator.Web.UnitTests.ItemsDataServiceTests
 {

@@ -1,22 +1,14 @@
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Components.Authorization;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using System.Linq;
-using ListGenerator.Data.Repositories;
 using ListGenerator.Data.Entities;
 using ListGenerator.Server.Interfaces;
 using ListGeneratorListGenerator.Data.DB;
 using ListGenerator.Server.Services;
-using ListGenerator.Data.Interfaces;
 using ListGenerator.Shared.Interfaces;
 using ListGenerator.Shared.Models;
 using AutoMapper;
@@ -53,8 +45,7 @@ namespace ListGenerator.Server
 
             services.AddTransient<IItemsDataService, ItemsDataService>();
             services.AddTransient<IReplenishmentDataService, ReplenishmentDataService>();
-            services.AddTransient(typeof(IRepository<>), typeof(EfRepository<>));
-            services.AddTransient(typeof(IAsyncRepository<>), typeof(AsyncRepository<>));
+            services.AddTransient(typeof(IAsyncRepository<>), typeof(EfRepository<>));
             services.AddTransient(typeof(IItemsRepository), typeof(ItemsRepository));
             services.AddTransient(typeof(IUnitOfWork), typeof(UnitOfWork));
 
