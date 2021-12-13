@@ -13,7 +13,7 @@ namespace ListGenerator.Server.Interfaces
 
         Task<BaseResponse> AddItem(string userId, ItemDto itemDto);
 
-        BaseResponse UpdateItem(string userId, ItemDto itemDto);
+        Task<BaseResponse> UpdateItemAsync(string userId, ItemDto itemDto);
 
         BaseResponse DeleteItem(int id, string userId);
 

@@ -217,15 +217,15 @@ namespace ListGenerator.Server.Services
             }
         }
 
-        public BaseResponse UpdateItem(string userId, ItemDto itemDto)
+        public async Task<BaseResponse> UpdateItemAsync(string userId, ItemDto itemDto)
         {
             try
             {
                 userId.ThrowIfNullOrEmpty();
                 itemDto.ThrowIfNull();
 
-                var itemToUpdate = _itemsRepository.All()
-                    .FirstOrDefault(x => x.Id == itemDto.Id && x.UserId == userId);
+                var itemToUpdate = await _unitOfWork.ItemsRepository
+                    .FirstOrDefaultAsync(x => x.Id == itemDto.Id && x.UserId == userId);
 
                 itemToUpdate.ThrowIfNullWithShowMessage($"Current user does not have item with id {itemDto.Id}");
 
@@ -234,8 +234,8 @@ namespace ListGenerator.Server.Services
                 itemToUpdate.NextReplenishmentDate = itemDto.NextReplenishmentDate;
                 itemToUpdate.UserId = userId;
 
-                _itemsRepository.Update(itemToUpdate);
-                _itemsRepository.SaveChanges();
+                _unitOfWork.ItemsRepository.Update(itemToUpdate);
+                await _unitOfWork.SaveChangesAsync();
 
 
                 var response = ResponseBuilder.Success();

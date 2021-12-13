@@ -42,7 +42,7 @@ namespace ListGenerator.Web.UnitTests.ItemsDataServiceTests
 
 
             //Act
-            var result = ItemsDataService.UpdateItem("ab70793b-cec8-4eba-99f3-cbad0b1649d0", updatedItemDto);
+            var result = ItemsDataService.UpdateItemAsync("ab70793b-cec8-4eba-99f3-cbad0b1649d0", updatedItemDto);
 
 
             //Assert
@@ -77,7 +77,7 @@ namespace ListGenerator.Web.UnitTests.ItemsDataServiceTests
 
 
             //Act
-            var result = ItemsDataService.UpdateItem("ab70793b-cec8-4eba-99f3-cbad0b1649d0", updatedItemDto);
+            var result = ItemsDataService.UpdateItemAsync("ab70793b-cec8-4eba-99f3-cbad0b1649d0", updatedItemDto);
 
 
             //Assert
@@ -113,7 +113,7 @@ namespace ListGenerator.Web.UnitTests.ItemsDataServiceTests
             ItemsRepositoryMock.InSequence(sequence).Setup(x => x.SaveChanges());
 
             //Act
-            var result = ItemsDataService.UpdateItem("ab70793b-cec8-4eba-99f3-cbad0b1649d0", updatedItemDto);
+            var result = ItemsDataService.UpdateItemAsync("ab70793b-cec8-4eba-99f3-cbad0b1649d0", updatedItemDto);
 
             //Assert
             AssertHelper.AssertAll(
@@ -141,7 +141,7 @@ namespace ListGenerator.Web.UnitTests.ItemsDataServiceTests
             };
 
             //Act
-            var result = ItemsDataService.UpdateItem(null, updatedItemDto);
+            var result = ItemsDataService.UpdateItemAsync(null, updatedItemDto);
 
 
             //Assert
@@ -170,7 +170,7 @@ namespace ListGenerator.Web.UnitTests.ItemsDataServiceTests
             };
 
             //Act
-            var result = ItemsDataService.UpdateItem(null, updatedItemDto);
+            var result = ItemsDataService.UpdateItemAsync(null, updatedItemDto);
 
 
             //Assert
@@ -201,7 +201,7 @@ namespace ListGenerator.Web.UnitTests.ItemsDataServiceTests
 
 
             //Act
-            var result = ItemsDataService.UpdateItem(string.Empty, updatedItemDto);
+            var result = ItemsDataService.UpdateItemAsync(string.Empty, updatedItemDto);
 
 
             //Assert
@@ -230,7 +230,7 @@ namespace ListGenerator.Web.UnitTests.ItemsDataServiceTests
             };
 
             //Act
-            var result = ItemsDataService.UpdateItem(string.Empty, updatedItemDto);
+            var result = ItemsDataService.UpdateItemAsync(string.Empty, updatedItemDto);
 
 
             //Assert
@@ -253,7 +253,7 @@ namespace ListGenerator.Web.UnitTests.ItemsDataServiceTests
 
 
             //Act
-            var result = ItemsDataService.UpdateItem("ab70793b-cec8-4eba-99f3-cbad0b1649d0", null);
+            var result = ItemsDataService.UpdateItemAsync("ab70793b-cec8-4eba-99f3-cbad0b1649d0", null);
 
 
             //Assert
@@ -282,7 +282,7 @@ namespace ListGenerator.Web.UnitTests.ItemsDataServiceTests
             };
 
             //Act
-            var result = ItemsDataService.UpdateItem("ab70793b-cec8-4eba-99f3-cbad0b1649d0", null);
+            var result = ItemsDataService.UpdateItemAsync("ab70793b-cec8-4eba-99f3-cbad0b1649d0", null);
 
 
             //Assert
@@ -313,7 +313,7 @@ namespace ListGenerator.Web.UnitTests.ItemsDataServiceTests
 
 
             //Act
-            var result = ItemsDataService.UpdateItem("ab70793b-cec8-4eba-99f3-cbad0b1649d0", updatedItemDto);
+            var result = ItemsDataService.UpdateItemAsync("ab70793b-cec8-4eba-99f3-cbad0b1649d0", updatedItemDto);
 
 
             //Assert
@@ -342,7 +342,7 @@ namespace ListGenerator.Web.UnitTests.ItemsDataServiceTests
             };
 
             //Act
-            var result = ItemsDataService.UpdateItem("ab70793b-cec8-4eba-99f3-cbad0b1649d0", updatedItemDto);
+            var result = ItemsDataService.UpdateItemAsync("ab70793b-cec8-4eba-99f3-cbad0b1649d0", updatedItemDto);
 
 
             //Assert
@@ -373,7 +373,7 @@ namespace ListGenerator.Web.UnitTests.ItemsDataServiceTests
 
 
             //Act
-            var result = ItemsDataService.UpdateItem("ab70793b-cec8-4eba-99f3-cbad0b1649d0", updatedItemDto);
+            var result = ItemsDataService.UpdateItemAsync("ab70793b-cec8-4eba-99f3-cbad0b1649d0", updatedItemDto);
 
 
             //Assert
@@ -404,7 +404,7 @@ namespace ListGenerator.Web.UnitTests.ItemsDataServiceTests
 
 
             //Act
-            var result = ItemsDataService.UpdateItem("ab70793b-cec8-4eba-99f3-cbad0b1649d0", updatedItemDto);
+            var result = ItemsDataService.UpdateItemAsync("ab70793b-cec8-4eba-99f3-cbad0b1649d0", updatedItemDto);
 
 
             //Assert
@@ -435,7 +435,7 @@ namespace ListGenerator.Web.UnitTests.ItemsDataServiceTests
 
 
             //Act
-            var result = ItemsDataService.UpdateItem("ab70793b-cec8-4eba-99f3-cbad0b1649d0", updatedItemDto);
+            var result = ItemsDataService.UpdateItemAsync("ab70793b-cec8-4eba-99f3-cbad0b1649d0", updatedItemDto);
 
 
             //Assert
@@ -466,7 +466,7 @@ namespace ListGenerator.Web.UnitTests.ItemsDataServiceTests
 
 
             //Act
-            var result = ItemsDataService.UpdateItem("ab70793b-cec8-4eba-99f3-cbad0b1649d0", updatedItemDto);
+            var result = ItemsDataService.UpdateItemAsync("ab70793b-cec8-4eba-99f3-cbad0b1649d0", updatedItemDto);
 
 
             //Assert
@@ -497,7 +497,7 @@ namespace ListGenerator.Web.UnitTests.ItemsDataServiceTests
 
 
             //Act
-            var result = ItemsDataService.UpdateItem("ab70793b-cec8-4eba-99f3-cbad0b1649d0", updatedItemDto);
+            var result = ItemsDataService.UpdateItemAsync("ab70793b-cec8-4eba-99f3-cbad0b1649d0", updatedItemDto);
 
 
             //Assert

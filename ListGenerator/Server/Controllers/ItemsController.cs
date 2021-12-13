@@ -99,13 +99,7 @@ namespace ListGenerator.Server.Controllers
                 return BadRequest(ModelState);
             }
 
-            var getItemResponse = await _itemsDataService.GetItemAsync(itemDto.Id, UserId);
-            if (!getItemResponse.IsSuccess || getItemResponse.Data == null)
-            {
-                return BadRequest(getItemResponse);
-            }
-
-            var updateResponse = _itemsDataService.UpdateItem(this.UserId, itemDto);
+            var updateResponse = await _itemsDataService.UpdateItemAsync(this.UserId, itemDto);
             if(!updateResponse.IsSuccess)
             {
                 return BadRequest(updateResponse);
