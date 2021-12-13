@@ -253,19 +253,19 @@ namespace ListGenerator.Server.Services
             }
         }
 
-        public BaseResponse DeleteItem(int id, string userId)
+        public async Task<BaseResponse> DeleteItem(int id, string userId)
         {
             try
             {
                 userId.ThrowIfNullOrEmpty();
 
-                var itemToDelete = _itemsRepository.All()
-                    .FirstOrDefault(x => x.Id == id && x.UserId == userId);
+                var itemToDelete = await _unitOfWork.ItemsRepository
+                    .FirstOrDefaultAsync(x => x.Id == id && x.UserId == userId);
 
                 itemToDelete.ThrowIfNullWithShowMessage($"Current user does not have item with id {id}");
 
                 _itemsRepository.Delete(itemToDelete);
-                _itemsRepository.SaveChanges();
+                await _itemsRepository.SaveChangesAsync();
 
                 var response = ResponseBuilder.Success();
                 return response;

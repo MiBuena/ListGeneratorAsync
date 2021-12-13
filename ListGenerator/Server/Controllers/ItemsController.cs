@@ -117,7 +117,7 @@ namespace ListGenerator.Server.Controllers
                 return BadRequest(getItemResponse);
             }
 
-            var deleteResponse = _itemsDataService.DeleteItem(id, UserId);
+            var deleteResponse = await _itemsDataService.DeleteItem(id, UserId);
 
             if(!deleteResponse.IsSuccess)
             {

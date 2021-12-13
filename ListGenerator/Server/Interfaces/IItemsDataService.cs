@@ -15,7 +15,7 @@ namespace ListGenerator.Server.Interfaces
 
         Task<BaseResponse> UpdateItemAsync(string userId, ItemDto itemDto);
 
-        BaseResponse DeleteItem(int id, string userId);
+        Task<BaseResponse> DeleteItem(int id, string userId);
 
         Task<Response<ItemsOverviewPageDto>> GetItemsOverviewPageModel(string userId, FilterPatemetersDto dto);
     }
