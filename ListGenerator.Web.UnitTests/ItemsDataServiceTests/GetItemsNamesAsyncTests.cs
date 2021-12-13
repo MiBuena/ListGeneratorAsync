@@ -123,5 +123,45 @@ namespace ListGenerator.Web.UnitTests.ItemsDataServiceTests
                 () => result.Data.Skip(2).First().Name.Should().Be("Biscuits")
             );
         }
+
+        [Test]
+        public async Task Should_ReturnSuccessResponseWithOneEntry_When_OneItemNameOfThisUserContainsSearchWord()
+        {
+            //Arrange
+            var filteredItemNameDto = BuildFirstItemNameDto();
+            List<ItemNameDto> filteredItemNameDtosAsList = new List<ItemNameDto>() { filteredItemNameDto };
+
+            ItemsRepositoryMock
+                .Setup(c => c.GetItemsNamesDtosAsync("d", "ab70793b-cec8-4eba-99f3-cbad0b1649d0"))
+                .ReturnsAsync(filteredItemNameDtosAsList);
+
+            //Act
+            var result = await ItemsDataService.GetItemsNamesAsync("d", "ab70793b-cec8-4eba-99f3-cbad0b1649d0");
+
+            //Assert
+            AssertHelper.AssertAll(
+                () => result.Data.Count().Should().Be(1),
+                () => result.IsSuccess.Should().BeTrue(),
+                () => result.ErrorMessage.Should().BeNull()
+                );
+        }
+
+        [Test]
+        public async Task Should_ReturnResponseWithCorrectItemName_When_OneItemNameOfThisUserContainSearchWord()
+        {
+            //Arrange
+            var filteredItemNameDto = BuildFirstItemNameDto();
+            List<ItemNameDto> filteredItemNameDtosAsList = new List<ItemNameDto>() { filteredItemNameDto };
+
+            ItemsRepositoryMock
+                .Setup(c => c.GetItemsNamesDtosAsync("d", "ab70793b-cec8-4eba-99f3-cbad0b1649d0"))
+                .ReturnsAsync(filteredItemNameDtosAsList);
+
+            //Act
+            var result = await ItemsDataService.GetItemsNamesAsync("d", "ab70793b-cec8-4eba-99f3-cbad0b1649d0");
+
+            //Assert
+            result.Data.First().Name.Should().Be("Bread");
+        }
     }
 }
