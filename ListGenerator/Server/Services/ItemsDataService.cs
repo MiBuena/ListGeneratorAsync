@@ -194,7 +194,7 @@ namespace ListGenerator.Server.Services
             }
         }
 
-        public BaseResponse AddItem(string userId, ItemDto itemDto)
+        public async Task<BaseResponse> AddItem(string userId, ItemDto itemDto)
         {
             try
             {
@@ -204,8 +204,8 @@ namespace ListGenerator.Server.Services
                 var itemEntity = _mapper.Map<ItemDto, Item>(itemDto);
                 itemEntity.UserId = userId;
 
-                _itemsRepository.Add(itemEntity);
-                _itemsRepository.SaveChanges();
+                _unitOfWork.ItemsRepository.Add(itemEntity);
+                await _unitOfWork.SaveChangesAsync();
 
                 var response = ResponseBuilder.Success();
                 return response;

@@ -11,7 +11,7 @@ namespace ListGenerator.Server.Interfaces
 
         Task<Response<ItemDto>> GetItemAsync(int itemId, string userId);
 
-        BaseResponse AddItem(string userId, ItemDto itemDto);
+        Task<BaseResponse> AddItem(string userId, ItemDto itemDto);
 
         BaseResponse UpdateItem(string userId, ItemDto itemDto);
 

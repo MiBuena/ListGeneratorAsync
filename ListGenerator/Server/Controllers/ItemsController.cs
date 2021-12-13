@@ -64,7 +64,7 @@ namespace ListGenerator.Server.Controllers
         }
 
         [HttpPost]
-        public IActionResult AddItem([FromBody] ItemDto itemDto)
+        public async Task<IActionResult> AddItem([FromBody] ItemDto itemDto)
         {
             if (itemDto == null)
             {
@@ -76,7 +76,7 @@ namespace ListGenerator.Server.Controllers
                 return BadRequest(ModelState);
             }
 
-            var response = _itemsDataService.AddItem(this.UserId, itemDto);
+            var response = await _itemsDataService.AddItem(this.UserId, itemDto);
 
             if(!response.IsSuccess)
             {
