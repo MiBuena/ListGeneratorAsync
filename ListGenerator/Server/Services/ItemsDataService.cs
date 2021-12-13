@@ -18,22 +18,26 @@ using ListGenerator.Server.CommonResources;
 using Microsoft.Extensions.Localization;
 using System.Threading.Tasks;
 using ListGenerator.Shared.Interfaces;
+using ListGeneration.Data.Interfaces;
 
 namespace ListGenerator.Server.Services
 {
     public class ItemsDataService : IItemsDataService
     {
-        private readonly IRepository<Item> _itemsRepository;
         private readonly IMapper _mapper;
+        private readonly IUnitOfWork _unitOfWork;
+        private readonly IRepository<Item> _itemsRepository;
         private readonly IStringLocalizer<Errors> _localizer;
 
 
-        public ItemsDataService(IRepository<Item> itemsRepository, 
+        public ItemsDataService(IUnitOfWork unitOfWork,
+            IRepository<Item> itemsRepository,
             IMapper mapper,
             IStringLocalizer<Errors> localizer = null)
         {
-            _itemsRepository = itemsRepository;
+            _unitOfWork = unitOfWork;
             _mapper = mapper;
+            _itemsRepository = itemsRepository;
             _localizer = localizer;
         }
 
@@ -44,18 +48,9 @@ namespace ListGenerator.Server.Services
                 searchWord.ThrowIfNull();
                 userId.ThrowIfNullOrEmpty();
 
-                var query = _itemsRepository.All()
-                    .Where(x => x.UserId == userId);
+                var names = await _unitOfWork.ItemsRepository.GetItemsNamesDtosAsync(searchWord, userId);
 
-                if (!string.IsNullOrEmpty(searchWord))
-                {
-                    query = query.Where(x => x.Name.ToLower().Contains(searchWord.ToLower()));
-                }
-
-                var queryProjection = _mapper.ProjectTo<ItemNameDto>(query);
-                var names = await _itemsRepository.ToListAsync(queryProjection);
-
-                var response = ResponseBuilder.Success<IEnumerable<ItemNameDto>>(names);
+                var response = ResponseBuilder.Success(names);
                 return response;
             }
             catch (Exception ex)

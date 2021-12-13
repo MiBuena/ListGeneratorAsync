@@ -24,6 +24,8 @@ namespace ListGeneration.Data.Repositories
             this.dbSet = context.Set<TEntity>();
         }
 
+        public ApplicationDbContext Context => this.context;
+
         public virtual async Task<IEnumerable<TEntity>> GetListAsync(
             Expression<Func<TEntity, bool>> filter = null,
             Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null,

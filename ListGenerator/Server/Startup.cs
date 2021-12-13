@@ -24,6 +24,7 @@ using ListGenerator.Server.Builders;
 using ListGenerator.Shared.Helpers;
 using ListGeneration.Data.Interfaces;
 using ListGeneration.Data.Repositories;
+using ListGeneration.Data.UnitOfWork;
 
 namespace ListGenerator.Server
 {
@@ -54,6 +55,9 @@ namespace ListGenerator.Server
             services.AddTransient<IReplenishmentDataService, ReplenishmentDataService>();
             services.AddTransient(typeof(IRepository<>), typeof(EfRepository<>));
             services.AddTransient(typeof(IAsyncRepository<>), typeof(AsyncRepository<>));
+            services.AddTransient(typeof(IItemsRepository), typeof(ItemsRepository));
+            services.AddTransient(typeof(IUnitOfWork), typeof(UnitOfWork));
+
 
             services.AddTransient<IDateTimeProvider, DateTimeProvider>();
             services.AddTransient<IReplenishmentItemBuilder, ReplenishmentItemBuilder>();
