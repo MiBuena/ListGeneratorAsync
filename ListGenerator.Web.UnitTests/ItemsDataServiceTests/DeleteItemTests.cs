@@ -29,7 +29,7 @@ namespace ListGenerator.Web.UnitTests.ItemsDataServiceTests
 
 
             //Act
-            var response = ItemsDataService.DeleteItem(1, "ab70793b-cec8-4eba-99f3-cbad0b1649d0");
+            var response = ItemsDataService.DeleteItemAsync(1, "ab70793b-cec8-4eba-99f3-cbad0b1649d0");
 
 
             //Assert
@@ -53,7 +53,7 @@ namespace ListGenerator.Web.UnitTests.ItemsDataServiceTests
 
 
             //Act
-            var response = ItemsDataService.DeleteItem(1, "ab70793b-cec8-4eba-99f3-cbad0b1649d0");
+            var response = ItemsDataService.DeleteItemAsync(1, "ab70793b-cec8-4eba-99f3-cbad0b1649d0");
 
 
             //Assert
@@ -79,7 +79,7 @@ namespace ListGenerator.Web.UnitTests.ItemsDataServiceTests
 
 
             //Act
-            var response = ItemsDataService.DeleteItem(1, "ab70793b-cec8-4eba-99f3-cbad0b1649d0");
+            var response = ItemsDataService.DeleteItemAsync(1, "ab70793b-cec8-4eba-99f3-cbad0b1649d0");
 
 
             //Assert
@@ -107,7 +107,7 @@ namespace ListGenerator.Web.UnitTests.ItemsDataServiceTests
 
 
             //Act
-            var response = ItemsDataService.DeleteItem(5, "ab70793b-cec8-4eba-99f3-cbad0b1649d0");
+            var response = ItemsDataService.DeleteItemAsync(5, "ab70793b-cec8-4eba-99f3-cbad0b1649d0");
 
 
             //Assert
@@ -132,7 +132,7 @@ namespace ListGenerator.Web.UnitTests.ItemsDataServiceTests
 
 
             //Act
-            var response = ItemsDataService.DeleteItem(5, "ab70793b-cec8-4eba-99f3-cbad0b1649d0");
+            var response = ItemsDataService.DeleteItemAsync(5, "ab70793b-cec8-4eba-99f3-cbad0b1649d0");
 
 
             //Assert
@@ -157,7 +157,7 @@ namespace ListGenerator.Web.UnitTests.ItemsDataServiceTests
 
 
             //Act
-            var response = ItemsDataService.DeleteItem(1, string.Empty);
+            var response = ItemsDataService.DeleteItemAsync(1, string.Empty);
 
 
             //Assert
@@ -183,7 +183,7 @@ namespace ListGenerator.Web.UnitTests.ItemsDataServiceTests
 
 
             //Act
-            var response = ItemsDataService.DeleteItem(1, string.Empty);
+            var response = ItemsDataService.DeleteItemAsync(1, string.Empty);
 
 
             //Assert
@@ -208,7 +208,7 @@ namespace ListGenerator.Web.UnitTests.ItemsDataServiceTests
 
 
             //Act
-            var response = ItemsDataService.DeleteItem(1, null);
+            var response = ItemsDataService.DeleteItemAsync(1, null);
 
 
             //Assert
@@ -233,7 +233,7 @@ namespace ListGenerator.Web.UnitTests.ItemsDataServiceTests
 
 
             //Act
-            var response = ItemsDataService.DeleteItem(1, null);
+            var response = ItemsDataService.DeleteItemAsync(1, null);
 
 
             //Assert

@@ -25,18 +25,15 @@ namespace ListGenerator.Server.Services
     {
         private readonly IMapper _mapper;
         private readonly IUnitOfWork _unitOfWork;
-        private readonly IRepository<Item> _itemsRepository;
         private readonly IStringLocalizer<Errors> _localizer;
 
 
         public ItemsDataService(IUnitOfWork unitOfWork,
-            IRepository<Item> itemsRepository,
             IMapper mapper,
             IStringLocalizer<Errors> localizer = null)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
-            _itemsRepository = itemsRepository;
             _localizer = localizer;
         }
 
@@ -161,7 +158,7 @@ namespace ListGenerator.Server.Services
             }
         }
 
-        public async Task<BaseResponse> DeleteItem(int id, string userId)
+        public async Task<BaseResponse> DeleteItemAsync(int id, string userId)
         {
             try
             {
@@ -172,8 +169,8 @@ namespace ListGenerator.Server.Services
 
                 itemToDelete.ThrowIfNullWithShowMessage($"Current user does not have item with id {id}");
 
-                _itemsRepository.Delete(itemToDelete);
-                await _itemsRepository.SaveChangesAsync();
+                _unitOfWork.ItemsRepository.Delete(itemToDelete);
+                await _unitOfWork.SaveChangesAsync();
 
                 var response = ResponseBuilder.Success();
                 return response;
