@@ -74,6 +74,9 @@ namespace ListGenerator.Server.Services
         {
             try
             {
+                itemId.ThrowIfZeroOrNegative();
+                userId.ThrowIfNullOrEmpty();
+
                 var dto = await _unitOfWork.ItemsRepository.GetItemDtoAsync(itemId, userId);
 
                 dto.ThrowIfNullWithShowMessage($"Current user does not have item with id {itemId}");

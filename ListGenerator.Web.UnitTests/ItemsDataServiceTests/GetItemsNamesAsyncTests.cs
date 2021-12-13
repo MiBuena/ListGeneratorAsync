@@ -16,8 +16,15 @@ using System.Threading.Tasks;
 
 namespace ListGenerator.Web.UnitTests.ItemsDataServiceTests
 {
+    [TestFixture]
     public class GetItemsNamesAsyncTests : BaseItemsDataServiceTests
     {
+        [SetUp]
+        protected override void Init()
+        {
+            base.Init();
+        }
+
         [Test]
         public async Task Should_ReturnErrorResponse_When_SearchWordIsNull()
         {
