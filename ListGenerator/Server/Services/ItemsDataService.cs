@@ -57,7 +57,7 @@ namespace ListGenerator.Server.Services
                 userId.ThrowIfNullOrEmpty();
                 dto.ThrowIfNull();
 
-                var pageDto = await _unitOfWork.ItemsRepository.GetItemsOverviewPageDtosAsync(userId, dto);
+                var pageDto = await _unitOfWork.ItemsRepository.GetItemsOverviewPageDtoAsync(userId, dto);
               
                 var response = ResponseBuilder.Success(pageDto);
                 return response;

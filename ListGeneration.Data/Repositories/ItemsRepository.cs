@@ -50,7 +50,7 @@ namespace ListGeneration.Data.Repositories
             return dto;
         }
 
-        public async Task<ItemsOverviewPageDto> GetItemsOverviewPageDtosAsync(string userId, FilterPatemetersDto dto)
+        public async Task<ItemsOverviewPageDto> GetItemsOverviewPageDtoAsync(string userId, FilterPatemetersDto dto)
         {
             var query = GetOverviewItemsQuery(userId, dto);
 

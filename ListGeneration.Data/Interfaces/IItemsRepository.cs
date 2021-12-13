@@ -11,7 +11,7 @@ namespace ListGeneration.Data.Interfaces
     {
         Task<IEnumerable<ItemNameDto>> GetItemsNamesDtosAsync(string searchWord, string userId);
         Task<ItemDto> GetItemDtoAsync(int itemId, string userId);
-        Task<ItemsOverviewPageDto> GetItemsOverviewPageDtosAsync(string userId, FilterPatemetersDto dto);
+        Task<ItemsOverviewPageDto> GetItemsOverviewPageDtoAsync(string userId, FilterPatemetersDto dto);
         Task<IEnumerable<Item>> GetShoppingListItemsAsync(DateTime date, string userId);
     }
 }
