@@ -180,80 +180,85 @@ namespace ListGenerator.Web.UnitTests.ItemsDataServiceTests
         }
 
 
-        //        [Test]
-        //        public void Should_NotDeleteAnyItem_When_UserIdIsEmpty()
-        //        {
-        //            //Arrange
-        //            var allItems = BuildItemsCollection();
-        //            ItemsRepositoryMock.Setup(x => x.All()).Returns(allItems);
+        [Test]
+        public async Task Should_NotDeleteAnyItem_When_UserIdIsEmpty()
+        {
+            //Arrange
+            var firstItem = BuildFirstItem();
+            ItemsRepositoryMock
+                .Setup(x => x.FirstOrDefaultAsync(It.IsAny<Expression<Func<Item, bool>>>(), null, default))
+                .ReturnsAsync(firstItem);
 
-        //            var deleteObject = new Item();
-        //            ItemsRepositoryMock.Setup(c => c.Delete(It.IsAny<Item>()))
-        //                        .Callback<Item>((obj) => deleteObject = obj);
+            var deleteObject = new Item();
+            ItemsRepositoryMock.Setup(c => c.Delete(It.IsAny<Item>()))
+                        .Callback<Item>((obj) => deleteObject = obj);
 
-        //            ItemsRepositoryMock.Setup(x => x.SaveChanges());
-
-
-        //            //Act
-        //            var response = ItemsDataService.DeleteItemAsync(1, string.Empty);
+            UnitOfWorkMock.Setup(c => c.SaveChangesAsync()).ReturnsAsync(1);
 
 
-        //            //Assert
-        //            AssertHelper.AssertAll(
-        //                  () => ItemsRepositoryMock.Verify(x => x.Delete(It.IsAny<Item>()), Times.Never()),
-        //                  () => ItemsRepositoryMock.Verify(x => x.SaveChanges(), Times.Never())
-        //                  );
-        //        }
-
-        //        [Test]
-        //        public void Should_ReturnErrorResponse_When_UserIdIsNull()
-        //        {
-        //            //Arrange
-        //            var allItems = BuildItemsCollection();
-        //            ItemsRepositoryMock.Setup(x => x.All()).Returns(allItems);
-
-        //            var deleteObject = new Item();
-        //            ItemsRepositoryMock.Setup(c => c.Delete(It.IsAny<Item>()))
-        //                        .Callback<Item>((obj) => deleteObject = obj);
-
-        //            ItemsRepositoryMock.Setup(x => x.SaveChanges());
+            //Act
+            var response = await ItemsDataService.DeleteItemAsync(1, string.Empty);
 
 
-        //            //Act
-        //            var response = ItemsDataService.DeleteItemAsync(1, null);
+            //Assert
+            AssertHelper.AssertAll(
+                  () => ItemsRepositoryMock.Verify(x => x.Delete(It.IsAny<Item>()), Times.Never()),
+                  () => UnitOfWorkMock.Verify(x => x.SaveChangesAsync(), Times.Never())
+                  );
+        }
+
+        [Test]
+        public async Task Should_ReturnErrorResponse_When_UserIdIsNull()
+        {
+            //Arrange
+            var firstItem = BuildFirstItem();
+            ItemsRepositoryMock
+                .Setup(x => x.FirstOrDefaultAsync(It.IsAny<Expression<Func<Item, bool>>>(), null, default))
+                .ReturnsAsync(firstItem);
+
+            var deleteObject = new Item();
+            ItemsRepositoryMock.Setup(c => c.Delete(It.IsAny<Item>()))
+                        .Callback<Item>((obj) => deleteObject = obj);
+
+            UnitOfWorkMock.Setup(c => c.SaveChangesAsync()).ReturnsAsync(1);
 
 
-        //            //Assert
-        //            AssertHelper.AssertAll(
-        //                () => response.IsSuccess.Should().BeFalse(),
-        //                () => response.ErrorMessage.Should().Be("An error occurred while deleting item")
-        //                );
-        //        }
-
-        //        [Test]
-        //        public void Should_NotDeleteAnyItem_When_UserIdIsNull()
-        //        {
-        //            //Arrange
-        //            var allItems = BuildItemsCollection();
-        //            ItemsRepositoryMock.Setup(x => x.All()).Returns(allItems);
-
-        //            var deleteObject = new Item();
-        //            ItemsRepositoryMock.Setup(c => c.Delete(It.IsAny<Item>()))
-        //                        .Callback<Item>((obj) => deleteObject = obj);
-
-        //            ItemsRepositoryMock.Setup(x => x.SaveChanges());
+            //Act
+            var response = await ItemsDataService.DeleteItemAsync(1, null);
 
 
-        //            //Act
-        //            var response = ItemsDataService.DeleteItemAsync(1, null);
+            //Assert
+            AssertHelper.AssertAll(
+                () => response.IsSuccess.Should().BeFalse(),
+                () => response.ErrorMessage.Should().Be("An error occurred while deleting item")
+                );
+        }
+
+        [Test]
+        public async Task Should_NotDeleteAnyItem_When_UserIdIsNull()
+        {
+            //Arrange
+            var firstItem = BuildFirstItem();
+            ItemsRepositoryMock
+                .Setup(x => x.FirstOrDefaultAsync(It.IsAny<Expression<Func<Item, bool>>>(), null, default))
+                .ReturnsAsync(firstItem);
+
+            var deleteObject = new Item();
+            ItemsRepositoryMock.Setup(c => c.Delete(It.IsAny<Item>()))
+                        .Callback<Item>((obj) => deleteObject = obj);
+
+            UnitOfWorkMock.Setup(c => c.SaveChangesAsync()).ReturnsAsync(1);
 
 
-        //            //Assert
-        //            AssertHelper.AssertAll(
-        //                  () => ItemsRepositoryMock.Verify(x => x.Delete(It.IsAny<Item>()), Times.Never()),
-        //                  () => ItemsRepositoryMock.Verify(x => x.SaveChanges(), Times.Never())
-        //                  );
-        //        }
+            //Act
+            var response = await ItemsDataService.DeleteItemAsync(1, null);
 
+
+            //Assert
+            AssertHelper.AssertAll(
+                  () => ItemsRepositoryMock.Verify(x => x.Delete(It.IsAny<Item>()), Times.Never()),
+                  () => UnitOfWorkMock.Verify(x => x.SaveChangesAsync(), Times.Never())
+                  );
+        }
     }
 }
