@@ -24,7 +24,7 @@ namespace ListGenerator.Web.UnitTests.ItemsDataServiceTests
         }
 
         [Test]
-        public async Task Should_UpdateItem_When_InputParametersAreValidAsync()
+        public async Task Should_UpdateItem_When_InputParametersAreValid()
         {
             //Arrange
             var updatedItemDto = new ItemDto()
@@ -61,7 +61,7 @@ namespace ListGenerator.Web.UnitTests.ItemsDataServiceTests
         }
 
         [Test]
-        public async Task Should_ReturnSuccessResponse_When_InputParametersAreValidAsync()
+        public async Task Should_ReturnSuccessResponse_When_InputParametersAreValid()
         {
             //Arrange
             var updatedItemDto = new ItemDto()
@@ -96,7 +96,7 @@ namespace ListGenerator.Web.UnitTests.ItemsDataServiceTests
         }
 
         [Test]
-        public async Task Should_CallRepositorySaveChangesAfterUpdateMethod_When_InputParametersAreValidAsync()
+        public async Task Should_CallRepositorySaveChangesAfterUpdateMethod_When_InputParametersAreValid()
         {
             //Arrange
             var firstItem = BuildFirstItem();
@@ -132,7 +132,7 @@ namespace ListGenerator.Web.UnitTests.ItemsDataServiceTests
         }
 
         [Test]
-        public async Task Should_ReturnErrorResponse_When_UserIdIsNullAsync()
+        public async Task Should_ReturnErrorResponse_When_UserIdIsNull()
         {
             //Arrange
             var firstItem = BuildFirstItem();
@@ -163,7 +163,7 @@ namespace ListGenerator.Web.UnitTests.ItemsDataServiceTests
         }
 
         [Test]
-        public async Task Should_CheckForUserIdNullBeforeAllOtherMethodCalls_When_UserIdIsNullAsync()
+        public async Task Should_CheckForUserIdNullBeforeAllOtherMethodCalls_When_UserIdIsNull()
         {
             //Arrange
             var firstItem = BuildFirstItem();
@@ -197,7 +197,7 @@ namespace ListGenerator.Web.UnitTests.ItemsDataServiceTests
         }
 
         [Test]
-        public async Task Should_ReturnErrorResponse_When_UserIdIsEmptyAsync()
+        public async Task Should_ReturnErrorResponse_When_UserIdIsEmpty()
         {
             //Arrange
             var firstItem = BuildFirstItem();
@@ -229,7 +229,7 @@ namespace ListGenerator.Web.UnitTests.ItemsDataServiceTests
         }
 
         [Test]
-        public async Task Should_CheckForUserIdEmptyBeforeAllOtherMethodCalls_When_UserIdIsEmptyAsync()
+        public async Task Should_CheckForUserIdEmptyBeforeAllOtherMethodCalls_When_UserIdIsEmpty()
         {
             //Arrange
             var firstItem = BuildFirstItem();
@@ -263,7 +263,7 @@ namespace ListGenerator.Web.UnitTests.ItemsDataServiceTests
         }
 
         [Test]
-        public async Task Should_ReturnErrorResponse_When_ItemDtoIsNullAsync()
+        public async Task Should_ReturnErrorResponse_When_ItemDtoIsNull()
         {
             //Arrange
             var firstItem = BuildFirstItem();
@@ -287,7 +287,7 @@ namespace ListGenerator.Web.UnitTests.ItemsDataServiceTests
         }
 
         [Test]
-        public async Task Should_CheckForItemDtoNullBeforeAllOtherMethodCalls_When_ItemDtoIsNullAsync()
+        public async Task Should_CheckForItemDtoNullBeforeAllOtherMethodCalls_When_ItemDtoIsNull()
         {
             //Arrange
             var firstItem = BuildFirstItem();
@@ -313,7 +313,7 @@ namespace ListGenerator.Web.UnitTests.ItemsDataServiceTests
         }
 
         [Test]
-        public async Task Should_ReturnErrorResponse_When_ItemWithThisIdDoesNotExistAsync()
+        public async Task Should_ReturnErrorResponse_When_ItemWithThisIdDoesNotExist()
         {
             //Arrange
             Item itemNull = null;
@@ -345,7 +345,7 @@ namespace ListGenerator.Web.UnitTests.ItemsDataServiceTests
         }
 
         [Test]
-        public async Task Should_NotUpdateAnyItemInTheDb_When_ItemWithThisIdDoesNotExistAsync()
+        public async Task Should_NotUpdateAnyItemInTheDb_When_ItemWithThisIdDoesNotExist()
         {
             //Arrange
             Item itemNull = null;
@@ -411,7 +411,7 @@ namespace ListGenerator.Web.UnitTests.ItemsDataServiceTests
 
 
         [Test]
-        public async Task Should_ReturnErrorResponse_When_RepositoryUpdateThrowsAnExceptionAsync()
+        public async Task Should_ReturnErrorResponse_When_RepositoryUpdateThrowsAnException()
         {
             //Arrange
             var firstItem = BuildFirstItem();
@@ -444,7 +444,7 @@ namespace ListGenerator.Web.UnitTests.ItemsDataServiceTests
 
 
         [Test]
-        public async Task Should_ReturnErrorResponse_When_RepositorySaveChangesThrowsAnExceptionAsync()
+        public async Task Should_ReturnErrorResponse_When_RepositorySaveChangesThrowsAnException()
         {
             //Arrange
             var firstItem = BuildFirstItem();
