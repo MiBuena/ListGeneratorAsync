@@ -17,6 +17,6 @@ namespace ListGenerator.Server.Interfaces
 
         Task<BaseResponse> DeleteItemAsync(int id, string userId);
 
-        Task<Response<ItemsOverviewPageDto>> GetItemsOverviewPageModel(string userId, FilterPatemetersDto dto);
+        Task<Response<ItemsOverviewPageDto>> GetItemsOverviewPageModelAsync(string userId, FilterPatemetersDto dto);
     }
 }

@@ -40,7 +40,7 @@ namespace ListGenerator.Server.Controllers
         [HttpGet("overview/{dto.PageSize:int?}/{dto.SkipItems:int?}/{dto.OrderByColumn?}/{dto.OrderByDirection?}/{dto.SearchWord?}/{dto.SearchDate?}")]
         public async Task<IActionResult> GetOverviewItems([FromQuery] FilterPatemetersDto dto)
         {
-            var response = await _itemsDataService.GetItemsOverviewPageModel(this.UserId, dto);
+            var response = await _itemsDataService.GetItemsOverviewPageModelAsync(this.UserId, dto);
 
             if (!response.IsSuccess)
             {

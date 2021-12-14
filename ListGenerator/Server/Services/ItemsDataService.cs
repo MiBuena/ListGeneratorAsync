@@ -50,7 +50,7 @@ namespace ListGenerator.Server.Services
             }
         }
 
-        public async Task<Response<ItemsOverviewPageDto>> GetItemsOverviewPageModel(string userId, FilterPatemetersDto dto)
+        public async Task<Response<ItemsOverviewPageDto>> GetItemsOverviewPageModelAsync(string userId, FilterPatemetersDto dto)
         {
             try
             {

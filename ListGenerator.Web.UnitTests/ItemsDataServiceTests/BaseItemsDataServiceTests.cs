@@ -26,6 +26,11 @@ namespace ListGenerator.Web.UnitTests.ItemsDataServiceTests
             MapperMock = new Mock<IMapper>(MockBehavior.Strict);
             StringLocalizerMock = new Mock<IStringLocalizer<Errors>>(MockBehavior.Strict);
             ItemsDataService = new ItemsDataService(UnitOfWorkMock.Object, MapperMock.Object, StringLocalizerMock.Object);
+
+            string key = "OverviewItemsError";
+            string value = "An error occured while getting items";
+            var localizedString = new LocalizedString(key, value);
+            StringLocalizerMock.Setup(_ => _[key]).Returns(localizedString);
         }
 
         protected Mock<IItemsRepository> ItemsRepositoryMock { get; private set; }
