@@ -96,7 +96,7 @@ namespace ListGenerator.Server.Services
             }
         }
 
-        public async Task<BaseResponse> AddItem(string userId, ItemDto itemDto)
+        public async Task<BaseResponse> AddItemAsync(string userId, ItemDto itemDto)
         {
             try
             {

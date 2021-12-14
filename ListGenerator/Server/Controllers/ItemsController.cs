@@ -76,7 +76,7 @@ namespace ListGenerator.Server.Controllers
                 return BadRequest(ModelState);
             }
 
-            var response = await _itemsDataService.AddItem(this.UserId, itemDto);
+            var response = await _itemsDataService.AddItemAsync(this.UserId, itemDto);
 
             if(!response.IsSuccess)
             {

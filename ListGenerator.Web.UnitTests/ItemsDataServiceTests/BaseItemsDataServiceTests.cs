@@ -93,7 +93,6 @@ namespace ListGenerator.Web.UnitTests.ItemsDataServiceTests
                 Name = "Bread",
                 NextReplenishmentDate = new DateTime(2020, 10, 06),
                 ReplenishmentPeriod = 1,
-                UserId = "ab70793b-cec8-4eba-99f3-cbad0b1649d0"
             };
 
             return firstItem;
