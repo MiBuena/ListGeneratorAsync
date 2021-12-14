@@ -131,124 +131,136 @@ namespace ListGenerator.Web.UnitTests.ItemsDataServiceTests
                 );
         }
 
-        //[Test]
-        //public void Should_ReturnErrorResponse_When_UserIdIsNull()
-        //{
-        //    //Arrange
-        //    var allItems = BuildItemsCollection();
-        //    ItemsRepositoryMock.Setup(x => x.All()).Returns(allItems);
+        [Test]
+        public async Task Should_ReturnErrorResponse_When_UserIdIsNullAsync()
+        {
+            //Arrange
+            var firstItem = BuildFirstItem();
+            ItemsRepositoryMock
+                .Setup(x => x.FirstOrDefaultAsync(It.IsAny<Expression<Func<Item, bool>>>(), null, default))
+                .ReturnsAsync(firstItem);
 
-        //    ItemsRepositoryMock.Setup(c => c.Update(It.IsAny<Item>()));
-        //    ItemsRepositoryMock.Setup(c => c.SaveChanges());
+            ItemsRepositoryMock.Setup(c => c.Update(It.IsAny<Item>()));
+            UnitOfWorkMock.Setup(c => c.SaveChangesAsync()).ReturnsAsync(1);
 
-        //    var updatedItemDto = new ItemDto()
-        //    {
-        //        Id = 1,
-        //        Name = "Bread updated",
-        //        NextReplenishmentDate = new DateTime(2020, 10, 10),
-        //        ReplenishmentPeriod = 4
-        //    };
+            var updatedItemDto = new ItemDto()
+            {
+                Id = 1,
+                Name = "Bread updated",
+                NextReplenishmentDate = new DateTime(2020, 10, 10),
+                ReplenishmentPeriod = 4
+            };
 
-        //    //Act
-        //    var result = ItemsDataService.UpdateItemAsync(null, updatedItemDto);
-
-
-        //    //Assert
-        //    AssertHelper.AssertAll(
-        //        () => result.IsSuccess.Should().BeFalse(),
-        //        () => result.ErrorMessage.Should().Be("An error occurred while updating item")
-        //        );
-        //}
-
-        //[Test]
-        //public void Should_CheckForUserIdNullBeforeAllOtherMethodCalls_When_UserIdIsNull()
-        //{
-        //    //Arrange
-        //    var allItems = BuildItemsCollection();
-        //    ItemsRepositoryMock.Setup(x => x.All()).Returns(allItems);
-
-        //    ItemsRepositoryMock.Setup(c => c.Update(It.IsAny<Item>()));
-        //    ItemsRepositoryMock.Setup(c => c.SaveChanges());
-
-        //    var updatedItemDto = new ItemDto()
-        //    {
-        //        Id = 1,
-        //        Name = "Bread updated",
-        //        NextReplenishmentDate = new DateTime(2020, 10, 10),
-        //        ReplenishmentPeriod = 4
-        //    };
-
-        //    //Act
-        //    var result = ItemsDataService.UpdateItemAsync(null, updatedItemDto);
+            //Act
+            var result = await ItemsDataService.UpdateItemAsync(null, updatedItemDto);
 
 
-        //    //Assert
-        //    AssertHelper.AssertAll(
-        //        () => ItemsRepositoryMock.Verify(x => x.All(), Times.Never()),
-        //        () => ItemsRepositoryMock.Verify(x => x.Update(It.IsAny<Item>()), Times.Never()),
-        //        () => ItemsRepositoryMock.Verify(x => x.SaveChanges(), Times.Never())
-        //        );
-        //}
+            //Assert
+            AssertHelper.AssertAll(
+                () => result.IsSuccess.Should().BeFalse(),
+                () => result.ErrorMessage.Should().Be("An error occurred while updating item")
+                );
+        }
 
-        //[Test]
-        //public void Should_ReturnErrorResponse_When_UserIdIsEmpty()
-        //{
-        //    //Arrange
-        //    var allItems = BuildItemsCollection();
-        //    ItemsRepositoryMock.Setup(x => x.All()).Returns(allItems);
+        [Test]
+        public async Task Should_CheckForUserIdNullBeforeAllOtherMethodCalls_When_UserIdIsNullAsync()
+        {
+            //Arrange
+            var firstItem = BuildFirstItem();
+            ItemsRepositoryMock
+                .Setup(x => x.FirstOrDefaultAsync(It.IsAny<Expression<Func<Item, bool>>>(), It.IsAny<Func<IQueryable<Item>, IOrderedQueryable<Item>>>(), It.IsAny<CancellationToken>()))
+                .ReturnsAsync(firstItem);
 
-        //    ItemsRepositoryMock.Setup(c => c.Update(It.IsAny<Item>()));
-        //    ItemsRepositoryMock.Setup(c => c.SaveChanges());
+            ItemsRepositoryMock.Setup(c => c.Update(It.IsAny<Item>()));
+            UnitOfWorkMock.Setup(c => c.SaveChangesAsync()).ReturnsAsync(1);
 
-        //    var updatedItemDto = new ItemDto()
-        //    {
-        //        Id = 1,
-        //        Name = "Bread updated",
-        //        NextReplenishmentDate = new DateTime(2020, 10, 10),
-        //        ReplenishmentPeriod = 4
-        //    };
+            var updatedItemDto = new ItemDto()
+            {
+                Id = 1,
+                Name = "Bread updated",
+                NextReplenishmentDate = new DateTime(2020, 10, 10),
+                ReplenishmentPeriod = 4
+            };
 
-
-        //    //Act
-        //    var result = ItemsDataService.UpdateItemAsync(string.Empty, updatedItemDto);
-
-
-        //    //Assert
-        //    AssertHelper.AssertAll(
-        //        () => result.IsSuccess.Should().BeFalse(),
-        //        () => result.ErrorMessage.Should().Be("An error occurred while updating item")
-        //        );
-        //}
-
-        //[Test]
-        //public void Should_CheckForUserIdEmptyBeforeAllOtherMethodCalls_When_UserIdIsEmpty()
-        //{
-        //    //Arrange
-        //    var allItems = BuildItemsCollection();
-        //    ItemsRepositoryMock.Setup(x => x.All()).Returns(allItems);
-
-        //    ItemsRepositoryMock.Setup(c => c.Update(It.IsAny<Item>()));
-        //    ItemsRepositoryMock.Setup(c => c.SaveChanges());
-
-        //    var updatedItemDto = new ItemDto()
-        //    {
-        //        Id = 1,
-        //        Name = "Bread updated",
-        //        NextReplenishmentDate = new DateTime(2020, 10, 10),
-        //        ReplenishmentPeriod = 4
-        //    };
-
-        //    //Act
-        //    var result = ItemsDataService.UpdateItemAsync(string.Empty, updatedItemDto);
+            //Act
+            var result = await ItemsDataService.UpdateItemAsync(null, updatedItemDto);
 
 
-        //    //Assert
-        //    AssertHelper.AssertAll(
-        //        () => ItemsRepositoryMock.Verify(x => x.All(), Times.Never()),
-        //        () => ItemsRepositoryMock.Verify(x => x.Update(It.IsAny<Item>()), Times.Never()),
-        //        () => ItemsRepositoryMock.Verify(x => x.SaveChanges(), Times.Never())
-        //        );
-        //}
+            //Assert
+            AssertHelper.AssertAll(
+                () => ItemsRepositoryMock.Verify(x => 
+                x.FirstOrDefaultAsync(It.IsAny<Expression<Func<Item, bool>>>(), 
+                It.IsAny<Func<IQueryable<Item>, IOrderedQueryable<Item>>>(), It.IsAny<CancellationToken>()), Times.Never()),
+                () => ItemsRepositoryMock.Verify(x => x.Update(It.IsAny<Item>()), Times.Never()),
+                () => UnitOfWorkMock.Verify(x => x.SaveChangesAsync(), Times.Never())
+                );
+        }
+
+        [Test]
+        public async Task Should_ReturnErrorResponse_When_UserIdIsEmptyAsync()
+        {
+            //Arrange
+            var firstItem = BuildFirstItem();
+            ItemsRepositoryMock
+                .Setup(x => x.FirstOrDefaultAsync(It.IsAny<Expression<Func<Item, bool>>>(), null, default))
+                .ReturnsAsync(firstItem);
+
+            ItemsRepositoryMock.Setup(c => c.Update(It.IsAny<Item>()));
+            UnitOfWorkMock.Setup(c => c.SaveChangesAsync()).ReturnsAsync(1);
+
+            var updatedItemDto = new ItemDto()
+            {
+                Id = 1,
+                Name = "Bread updated",
+                NextReplenishmentDate = new DateTime(2020, 10, 10),
+                ReplenishmentPeriod = 4
+            };
+
+
+            //Act
+            var result = await ItemsDataService.UpdateItemAsync(string.Empty, updatedItemDto);
+
+
+            //Assert
+            AssertHelper.AssertAll(
+                () => result.IsSuccess.Should().BeFalse(),
+                () => result.ErrorMessage.Should().Be("An error occurred while updating item")
+                );
+        }
+
+        [Test]
+        public async Task Should_CheckForUserIdEmptyBeforeAllOtherMethodCalls_When_UserIdIsEmptyAsync()
+        {
+            //Arrange
+            var firstItem = BuildFirstItem();
+            ItemsRepositoryMock
+                .Setup(x => x.FirstOrDefaultAsync(It.IsAny<Expression<Func<Item, bool>>>(), null, default))
+                .ReturnsAsync(firstItem);
+
+            ItemsRepositoryMock.Setup(c => c.Update(It.IsAny<Item>()));
+            UnitOfWorkMock.Setup(c => c.SaveChangesAsync()).ReturnsAsync(1);
+
+            var updatedItemDto = new ItemDto()
+            {
+                Id = 1,
+                Name = "Bread updated",
+                NextReplenishmentDate = new DateTime(2020, 10, 10),
+                ReplenishmentPeriod = 4
+            };
+
+
+            //Act
+            var result = await ItemsDataService.UpdateItemAsync(string.Empty, updatedItemDto);
+
+
+            //Assert
+            AssertHelper.AssertAll(
+                () => ItemsRepositoryMock.Verify(x => x.FirstOrDefaultAsync(It.IsAny<Expression<Func<Item, bool>>>(),
+                It.IsAny<Func<IQueryable<Item>, IOrderedQueryable<Item>>>(), It.IsAny<CancellationToken>()), Times.Never()),
+                () => ItemsRepositoryMock.Verify(x => x.Update(It.IsAny<Item>()), Times.Never()),
+                () => UnitOfWorkMock.Verify(x => x.SaveChangesAsync(), Times.Never())
+                );
+        }
 
         //[Test]
         //public void Should_ReturnErrorResponse_When_ItemDtoIsNull()
