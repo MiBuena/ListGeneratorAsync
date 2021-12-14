@@ -75,7 +75,7 @@ namespace ListGenerator.Web.UnitTests.ItemsDataServiceTests
         }
 
         [Test]
-        public async Task Should_AddItemOnce_When_InputParametersAreValidAsync()
+        public async Task Should_AddItemOnce_When_InputParametersAreValid()
         {
             //Arrange
             var itemDto = BuildFirstItemDtoWithoutId();
@@ -100,7 +100,7 @@ namespace ListGenerator.Web.UnitTests.ItemsDataServiceTests
         }
 
         [Test]
-        public async Task Should_FirstAddItemThenCallSaveChanges_When_InputParametersAreValidAsync()
+        public async Task Should_FirstAddItemThenCallSaveChanges_When_InputParametersAreValid()
         {
             //Arrange
             var itemDto = BuildFirstItemDtoWithoutId();
@@ -124,7 +124,7 @@ namespace ListGenerator.Web.UnitTests.ItemsDataServiceTests
         }
 
         [Test]
-        public async Task Should_ReturnAnErrorResponse_When_UserIdIsNullAsync()
+        public async Task Should_ReturnAnErrorResponse_When_UserIdIsNull()
         {
             //Arrange
             var itemDto = BuildFirstItemDtoWithoutId();
@@ -148,7 +148,7 @@ namespace ListGenerator.Web.UnitTests.ItemsDataServiceTests
         }
 
         [Test]
-        public async Task Should_CheckForUserIdNullBeforeOtherMethodCalls_When_UserIdIsNullAsync()
+        public async Task Should_CheckForUserIdNullBeforeOtherMethodCalls_When_UserIdIsNull()
         {
             //Arrange
             var itemDto = BuildFirstItemDtoWithoutId();
@@ -174,7 +174,7 @@ namespace ListGenerator.Web.UnitTests.ItemsDataServiceTests
         }
 
         [Test]
-        public async Task Should_ReturnAnErrorResponse_When_UserIdIsEmptyStringAsync()
+        public async Task Should_ReturnAnErrorResponse_When_UserIdIsEmptyString()
         {
             //Arrange
             var itemDto = BuildFirstItemDtoWithoutId();
@@ -197,7 +197,7 @@ namespace ListGenerator.Web.UnitTests.ItemsDataServiceTests
         }
 
         [Test]
-        public async Task Should_CheckForUserIdEmptyBeforeOtherMethodCalls_When_UserIdIsEmptyStringAsync()
+        public async Task Should_CheckForUserIdEmptyBeforeOtherMethodCalls_When_UserIdIsEmptyString()
         {
             //Arrange
             var itemDto = BuildFirstItemDtoWithoutId();
@@ -221,7 +221,7 @@ namespace ListGenerator.Web.UnitTests.ItemsDataServiceTests
         }
 
         [Test]
-        public async Task Should_ReturnAnErrorResponse_When_ItemDtoIsNullAsync()
+        public async Task Should_ReturnAnErrorResponse_When_ItemDtoIsNull()
         {
             //Arrange
             var itemDto = BuildFirstItemDtoWithoutId();
@@ -246,7 +246,7 @@ namespace ListGenerator.Web.UnitTests.ItemsDataServiceTests
 
 
         [Test]
-        public async Task Should_ReturnAnErrorResponse_When_MapperThrowsAnExceptionAsync()
+        public async Task Should_ReturnAnErrorResponse_When_MapperThrowsAnException()
         {
             //Arrange
             var itemDto = BuildFirstItemDtoWithoutId();
@@ -274,7 +274,7 @@ namespace ListGenerator.Web.UnitTests.ItemsDataServiceTests
         }
 
         [Test]
-        public async Task Should_ReturnAnErrorResponse_When_UnitOfWorkThrowsAnExceptionAsync()
+        public async Task Should_ReturnAnErrorResponse_When_UnitOfWorkThrowsAnException()
         {
             //Arrange
             var itemDto = BuildFirstItemDtoWithoutId();
