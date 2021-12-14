@@ -51,6 +51,36 @@ namespace ListGenerator.Web.UnitTests.ItemsDataServiceTests
             return filterParameters;
         }
 
+        protected List<ItemOverviewDto> BuildItemOverviewDtosCollection()
+        {
+            var collection = new List<ItemOverviewDto>();
+
+            var firstItemOverviewDto = new ItemOverviewDto()
+            {
+                Id = 1,
+                Name = "Bread",
+                NextReplenishmentDate = new DateTime(2020, 10, 06),
+                ReplenishmentPeriod = 1,
+                LastReplenishmentDate = new DateTime(2020, 10, 03),
+                LastReplenishmentQuantity = 3
+            };
+
+            var secondItemOverviewDto = new ItemOverviewDto()
+            {
+                Id = 2,
+                Name = "Cheese",
+                NextReplenishmentDate = new DateTime(2020, 10, 08),
+                ReplenishmentPeriod = 2,
+                LastReplenishmentDate = null,
+                LastReplenishmentQuantity = null
+            };
+
+            collection.Add(firstItemOverviewDto);
+            collection.Add(secondItemOverviewDto);
+
+            return collection;
+        }
+
         protected IQueryable<Item> BuildAdditionalItemsCollection()
         {
             var sixthItemPurchases = BuildSixthItemPurchases();

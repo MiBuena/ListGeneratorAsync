@@ -24,6 +24,90 @@ namespace ListGenerator.Web.UnitTests.ItemsDataServiceTests
         }
 
         [Test]
+        public async Task Should_ReturnResponseWithFirstPageUserItems_When_FirstPage()
+        {
+            //Arrange
+            var overviewPageDto = new ItemsOverviewPageDto()
+            {
+                OverviewItems = BuildItemOverviewDtosCollection(),
+                TotalItemsCount = 3
+            };
+            var filterParameters = BuildParametersDto();
+            ItemsRepositoryMock
+                .Setup(x => x.GetItemsOverviewPageDtosAsync("ab70793b-cec8-4eba-99f3-cbad0b1649d0", filterParameters))
+                .ReturnsAsync(overviewPageDto);
+
+            //Act
+            var response = await ItemsDataService.GetItemsOverviewPageModelAsync("ab70793b-cec8-4eba-99f3-cbad0b1649d0", filterParameters);
+
+
+            //Assert
+            AssertHelper.AssertAll(
+                 () => response.Data.OverviewItems.Count().Should().Be(2),
+                 () => response.Data.OverviewItems.First().Id.Should().Be(1),
+                 () => response.Data.OverviewItems.First().Name.Should().Be("Bread"),
+                 () => response.Data.OverviewItems.First().NextReplenishmentDate.Should().BeSameDateAs(new DateTime(2020, 10, 06)),
+                 () => response.Data.OverviewItems.First().ReplenishmentPeriod.Should().Be(1),
+                 () => response.Data.OverviewItems.First().LastReplenishmentDate.Should().BeSameDateAs(new DateTime(2020, 10, 03)),
+                 () => response.Data.OverviewItems.First().LastReplenishmentQuantity.Should().Be(3),
+
+                 () => response.Data.OverviewItems.Skip(1).First().Id.Should().Be(2),
+                 () => response.Data.OverviewItems.Skip(1).First().Name.Should().Be("Cheese"),
+                 () => response.Data.OverviewItems.Skip(1).First().NextReplenishmentDate.Should().BeSameDateAs(new DateTime(2020, 10, 08)),
+                 () => response.Data.OverviewItems.Skip(1).First().ReplenishmentPeriod.Should().Be(2),
+                 () => response.Data.OverviewItems.Skip(1).First().LastReplenishmentDate.Should().BeNull(),
+                 () => response.Data.OverviewItems.Skip(1).First().LastReplenishmentQuantity.Should().BeNull()
+                 );
+        }
+
+        [Test]
+        public async Task Should_ReturnCorrectTotalItemsCount_When_FirstPage()
+        {
+            //Arrange
+            var overviewPageDto = new ItemsOverviewPageDto()
+            {
+                OverviewItems = BuildItemOverviewDtosCollection(),
+                TotalItemsCount = 3
+            };
+            var filterParameters = BuildParametersDto();
+            ItemsRepositoryMock
+                .Setup(x => x.GetItemsOverviewPageDtosAsync("ab70793b-cec8-4eba-99f3-cbad0b1649d0", filterParameters))
+                .ReturnsAsync(overviewPageDto);
+
+            //Act
+            var response = await ItemsDataService.GetItemsOverviewPageModelAsync("ab70793b-cec8-4eba-99f3-cbad0b1649d0", filterParameters);
+
+            //Assert
+            response.Data.TotalItemsCount.Should().Be(3);
+        }
+
+
+        [Test]
+        public async Task Should_ReturnSuccessResponse_When_FirstPage()
+        {
+            //Arrange
+            var overviewPageDto = new ItemsOverviewPageDto()
+            {
+                OverviewItems = BuildItemOverviewDtosCollection(),
+                TotalItemsCount = 3
+            };
+            var filterParameters = BuildParametersDto();
+            ItemsRepositoryMock
+                .Setup(x => x.GetItemsOverviewPageDtosAsync("ab70793b-cec8-4eba-99f3-cbad0b1649d0", filterParameters))
+                .ReturnsAsync(overviewPageDto);
+
+            //Act
+            var response = await ItemsDataService.GetItemsOverviewPageModelAsync("ab70793b-cec8-4eba-99f3-cbad0b1649d0", filterParameters);
+
+
+            //Assert
+            AssertHelper.AssertAll(
+                 () => response.IsSuccess.Should().BeTrue(),
+                 () => response.ErrorMessage.Should().BeNull()
+                 );
+        }
+
+        [Test]
         public async Task Should_ReturnErrorResponse_When_UserIdIsNull()
         {
             //Arrange
