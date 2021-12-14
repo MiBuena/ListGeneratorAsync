@@ -9,6 +9,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace ListGenerator.Web.UnitTests.ItemsDataServiceTests
 {
@@ -21,111 +23,113 @@ namespace ListGenerator.Web.UnitTests.ItemsDataServiceTests
             base.Init();
         }
 
-        //[Test]
-        //public void Should_UpdateItem_When_InputParametersAreValid()
-        //{
-        //    //Arrange
+        [Test]
+        public async Task Should_UpdateItem_When_InputParametersAreValidAsync()
+        {
+            //Arrange
+            var updatedItemDto = new ItemDto()
+            {
+                Id = 1,
+                Name = "Bread updated",
+                NextReplenishmentDate = new DateTime(2020, 10, 10),
+                ReplenishmentPeriod = 4
+            };
 
-        //    var updatedItemDto = new ItemDto()
-        //    {
-        //        Id = 1,
-        //        Name = "Bread updated",
-        //        NextReplenishmentDate = new DateTime(2020, 10, 10),
-        //        ReplenishmentPeriod = 4
-        //    };
+            var firstItem = BuildFirstItem();
+            ItemsRepositoryMock
+                .Setup(x => x.FirstOrDefaultAsync(It.IsAny<Expression<Func<Item, bool>>>(), null, default))
+                .ReturnsAsync(firstItem);
 
-        //    var firstItem = BuildFirstItem();
-        //    ItemsRepositoryMock.Setup(x => x.FirstOrDefaultAsync(x => x.Id == 1 && x.UserId == "ab70793b-cec8-4eba-99f3-cbad0b1649d0", null, default));
+            var saveObject = new Item();
+            ItemsRepositoryMock.Setup(c => c.Update(It.Is<Item>(x =>
+                x.HasTheSameProperties("ab70793b-cec8-4eba-99f3-cbad0b1649d0", updatedItemDto))))
+                    .Callback<Item>((obj) => saveObject = obj);
 
-        //    var saveObject = new Item();
-        //    ItemsRepositoryMock.Setup(c => c.Update(It.Is<Item>(x =>
-        //        x.HasTheSameProperties("ab70793b-cec8-4eba-99f3-cbad0b1649d0", updatedItemDto))))
-        //            .Callback<Item>((obj) => saveObject = obj);
+            UnitOfWorkMock.Setup(c => c.SaveChangesAsync()).ReturnsAsync(1);
 
-        //    ItemsRepositoryMock.Setup(c => c.SaveChanges());
-
-
-
-        //    //Act
-        //    var result = ItemsDataService.UpdateItemAsync("ab70793b-cec8-4eba-99f3-cbad0b1649d0", updatedItemDto);
-
-
-        //    //Assert
-        //    AssertHelper.AssertAll(
-        //        () => saveObject.Id.Should().Be(1),
-        //        () => saveObject.Name.Should().Be("Bread updated"),
-        //        () => saveObject.NextReplenishmentDate.Should().BeSameDateAs(new DateTime(2020, 10, 10)),
-        //        () => saveObject.ReplenishmentPeriod.Should().Be(4)
-        //        );
-        //}
-
-        //[Test]
-        //public void Should_ReturnSuccessResponse_When_InputParametersAreValid()
-        //{
-        //    //Arrange
-        //    var allItems = BuildItemsCollection();
-        //    ItemsRepositoryMock.Setup(x => x.All()).Returns(allItems);
-
-        //    var updatedItemDto = new ItemDto()
-        //    {
-        //        Id = 1,
-        //        Name = "Bread updated",
-        //        NextReplenishmentDate = new DateTime(2020, 10, 10),
-        //        ReplenishmentPeriod = 4
-        //    };
-
-        //    ItemsRepositoryMock
-        //        .Setup(c => c.Update(It.Is<Item>(x =>
-        //        x.HasTheSameProperties("ab70793b-cec8-4eba-99f3-cbad0b1649d0", updatedItemDto))));
-
-        //    ItemsRepositoryMock.Setup(c => c.SaveChanges());
+            //Act
+            var result = await ItemsDataService.UpdateItemAsync("ab70793b-cec8-4eba-99f3-cbad0b1649d0", updatedItemDto);
 
 
-        //    //Act
-        //    var result = ItemsDataService.UpdateItemAsync("ab70793b-cec8-4eba-99f3-cbad0b1649d0", updatedItemDto);
+            //Assert
+            AssertHelper.AssertAll(
+                () => saveObject.Id.Should().Be(1),
+                () => saveObject.Name.Should().Be("Bread updated"),
+                () => saveObject.NextReplenishmentDate.Should().BeSameDateAs(new DateTime(2020, 10, 10)),
+                () => saveObject.ReplenishmentPeriod.Should().Be(4)
+                );
+        }
+
+        [Test]
+        public async Task Should_ReturnSuccessResponse_When_InputParametersAreValidAsync()
+        {
+            //Arrange
+            var updatedItemDto = new ItemDto()
+            {
+                Id = 1,
+                Name = "Bread updated",
+                NextReplenishmentDate = new DateTime(2020, 10, 10),
+                ReplenishmentPeriod = 4
+            };
+
+            var firstItem = BuildFirstItem();
+            ItemsRepositoryMock
+                .Setup(x => x.FirstOrDefaultAsync(It.IsAny<Expression<Func<Item, bool>>>(), null, default))
+                .ReturnsAsync(firstItem);
+
+            var saveObject = new Item();
+            ItemsRepositoryMock.Setup(c => c.Update(It.Is<Item>(x =>
+                x.HasTheSameProperties("ab70793b-cec8-4eba-99f3-cbad0b1649d0", updatedItemDto))))
+                    .Callback<Item>((obj) => saveObject = obj);
+
+            UnitOfWorkMock.Setup(c => c.SaveChangesAsync()).ReturnsAsync(1);
+
+            //Act
+            var result = await ItemsDataService.UpdateItemAsync("ab70793b-cec8-4eba-99f3-cbad0b1649d0", updatedItemDto);
 
 
-        //    //Assert
-        //    AssertHelper.AssertAll(
-        //        () => result.IsSuccess.Should().BeTrue(),
-        //        () => result.ErrorMessage.Should().BeNull()
-        //        );
-        //}
+            //Assert
+            AssertHelper.AssertAll(
+                () => result.IsSuccess.Should().BeTrue(),
+                () => result.ErrorMessage.Should().BeNull()
+                );
+        }
 
-        //[Test]
-        //public void Should_CallRepositorySaveChangesAfterUpdateMethod_When_InputParametersAreValid()
-        //{
-        //    //Arrange
-        //    var allItems = BuildItemsCollection();
-        //    ItemsRepositoryMock.Setup(x => x.All()).Returns(allItems);
+        [Test]
+        public async Task Should_CallRepositorySaveChangesAfterUpdateMethod_When_InputParametersAreValidAsync()
+        {
+            //Arrange
+            var firstItem = BuildFirstItem();
+            ItemsRepositoryMock
+                .Setup(x => x.FirstOrDefaultAsync(It.IsAny<Expression<Func<Item, bool>>>(), null, default))
+                .ReturnsAsync(firstItem);
 
-        //    var updatedItemDto = new ItemDto()
-        //    {
-        //        Id = 1,
-        //        Name = "Bread updated",
-        //        NextReplenishmentDate = new DateTime(2020, 10, 10),
-        //        ReplenishmentPeriod = 4
-        //    };
+            var updatedItemDto = new ItemDto()
+            {
+                Id = 1,
+                Name = "Bread updated",
+                NextReplenishmentDate = new DateTime(2020, 10, 10),
+                ReplenishmentPeriod = 4
+            };
 
+            var sequence = new MockSequence();
 
-        //    var sequence = new MockSequence();
+            ItemsRepositoryMock
+                .InSequence(sequence)
+                .Setup(c => c.Update(It.Is<Item>(x =>
+                x.HasTheSameProperties("ab70793b-cec8-4eba-99f3-cbad0b1649d0", updatedItemDto))));
 
-        //    ItemsRepositoryMock
-        //        .InSequence(sequence)
-        //        .Setup(c => c.Update(It.Is<Item>(x =>
-        //        x.HasTheSameProperties("ab70793b-cec8-4eba-99f3-cbad0b1649d0", updatedItemDto))));
+            UnitOfWorkMock.InSequence(sequence).Setup(x => x.SaveChangesAsync()).ReturnsAsync(1);
 
-        //    ItemsRepositoryMock.InSequence(sequence).Setup(x => x.SaveChanges());
+            //Act
+            var result = await ItemsDataService.UpdateItemAsync("ab70793b-cec8-4eba-99f3-cbad0b1649d0", updatedItemDto);
 
-        //    //Act
-        //    var result = ItemsDataService.UpdateItemAsync("ab70793b-cec8-4eba-99f3-cbad0b1649d0", updatedItemDto);
-
-        //    //Assert
-        //    AssertHelper.AssertAll(
-        //        () => result.IsSuccess.Should().BeTrue(),
-        //        () => result.ErrorMessage.Should().BeNull()
-        //        );
-        //}
+            //Assert
+            AssertHelper.AssertAll(
+                () => result.IsSuccess.Should().BeTrue(),
+                () => result.ErrorMessage.Should().BeNull()
+                );
+        }
 
         //[Test]
         //public void Should_ReturnErrorResponse_When_UserIdIsNull()
