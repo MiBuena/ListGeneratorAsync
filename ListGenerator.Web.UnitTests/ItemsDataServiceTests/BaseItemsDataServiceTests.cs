@@ -163,18 +163,7 @@ namespace ListGenerator.Web.UnitTests.ItemsDataServiceTests
             return secondItemNameDto;
         }
 
-        protected ItemDto BuildFirstItemDto()
-        {
-            var firstItemDto = new ItemDto()
-            {
-                Id = 1,
-                Name = "Bread",
-                NextReplenishmentDate = new DateTime(2020, 10, 06),
-                ReplenishmentPeriod = 1
-            };
 
-            return firstItemDto;
-        }
 
         protected ItemDto BuildFirstItemDtoWithoutId()
         {
@@ -186,19 +175,6 @@ namespace ListGenerator.Web.UnitTests.ItemsDataServiceTests
             };
 
             return firstItemDto;
-        }
-
-        protected ItemDto BuildSecondItemDto()
-        {
-            var secondItemDto = new ItemDto()
-            {
-                Id = 2,
-                Name = "Cheese",
-                NextReplenishmentDate = new DateTime(2020, 10, 08),
-                ReplenishmentPeriod = 2
-            };
-
-            return secondItemDto;
         }
     }
 }
